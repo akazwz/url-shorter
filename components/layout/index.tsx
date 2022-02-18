@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { Box, Flex } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 import { Header } from './header'
 import { Footer } from './footer'
 
@@ -15,7 +15,7 @@ export const Layout = ({ children }: IProps) => {
         as="main"
         role="contentinfo"
         mx="auto"
-        minH="70vh"
+        minH="73vh"
         py="3"
         /*px={{ base: '4', md: '8' }}*/
       >
