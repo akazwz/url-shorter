@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import isAbsoluteUrl from 'is-absolute-url'
+import isUrl from 'is-url'
 import { nanoid } from 'nanoid'
 import redis from '../../lib/redis'
 
@@ -47,7 +47,7 @@ const handleCreateShortUrl = async (req: NextApiRequest, res: NextApiResponse) =
   }
 
   /* url must be valid absolute url */
-  if (!isAbsoluteUrl(longUrl)) {
+  if (!isUrl(longUrl)) {
     res.status(400).json({ msg: 'url not valid' })
     return
   }

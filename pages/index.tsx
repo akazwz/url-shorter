@@ -1,14 +1,22 @@
 import { FormEvent, useState } from 'react'
 import type { NextPage } from 'next'
 import {
+  Box,
+  Link,
   Text,
+  Stack,
   Input,
+  Spacer,
   Button,
   VStack,
   Heading,
   FormLabel,
-  FormControl, Box, Stack, Spacer, useClipboard, Link,
+  FormControl,
+  useClipboard,
+  useToast,
+  AlertStatus,
 } from '@chakra-ui/react'
+import isUrl from 'is-url'
 import { Layout } from '../components/layout'
 
 const Home: NextPage = () => {
@@ -17,6 +25,17 @@ const Home: NextPage = () => {
   const [isBtnLoading, setIsBtnLoading] = useState<boolean>(false)
 
   const { hasCopied, onCopy } = useClipboard(shorterUrl)
+  const toast = useToast()
+
+  const alertToast = (title: string, status: AlertStatus) => {
+    toast({
+      title: title,
+      status: status,
+      duration: 3000,
+      position: 'top',
+      isClosable: true,
+    })
+  }
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
@@ -32,24 +51,27 @@ const Home: NextPage = () => {
       .then((res) => {
         setIsBtnLoading(false)
         if (res.status !== 201) {
-          alert('error')
+          alertToast('Short Url Error', 'error')
           return
         }
         res.json().then((dataRes) => {
           const { url } = dataRes
+          alertToast('Success', 'success')
           setShorterUrl(url)
         })
       })
       .catch(() => {
+        alertToast('Short Url Error', 'error')
         setIsBtnLoading(false)
       })
   }
+
   return (
     <Layout>
       <VStack spacing={10}>
         <Heading>URL Shorter</Heading>
         <FormControl
-          maxW="sm"
+          w={{ base: 'sm', sm: 'md', md: 'xl', }}
           rounded="lg"
           borderStyle="dotted"
           borderWidth="3px"
@@ -69,6 +91,7 @@ const Home: NextPage = () => {
             isLoading={isBtnLoading}
             colorScheme="blue"
             mt={3}
+            disabled={!isUrl(longUrl)}
           >
             Submit
           </Button>
