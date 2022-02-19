@@ -1,4 +1,4 @@
-import { Box, HStack, Spacer, useColorModeValue } from '@chakra-ui/react'
+import { Box, HStack, Spacer } from '@chakra-ui/react'
 import { Logo } from '../logo'
 import { ColorModeToggle } from './ColorModeToggle'
 

@@ -52,7 +52,7 @@ const handleCreateShortUrl = async (req: NextApiRequest, res: NextApiResponse) =
     return
   }
 
-  const shortId = nanoid(7)
+  const shortId = nanoid(5)
 
   try {
     /* judge short id is existing */
