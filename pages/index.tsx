@@ -12,7 +12,7 @@ import {
 import { Layout } from '../components/layout'
 
 const Home: NextPage = () => {
-  const [url, setUrl] = useState<string>('')
+  const [longUrl, setLongUrl] = useState<string>('')
   const [shorterUrl, setShorterUrl] = useState<string>('')
   const [isBtnLoading, setIsBtnLoading] = useState<boolean>(false)
 
@@ -23,7 +23,7 @@ const Home: NextPage = () => {
     setIsBtnLoading(true)
     fetch(`/api/short`, {
       method: 'POST',
-      body: JSON.stringify({ longUrl: url }),
+      body: JSON.stringify({ longUrl: longUrl }),
       headers: {
         'Content-Type': 'application/json'
       }
@@ -35,8 +35,8 @@ const Home: NextPage = () => {
           return
         }
         res.json().then((dataRes) => {
-          const { shortId } = dataRes
-          setShorterUrl(shortId)
+          const { url } = dataRes
+          setShorterUrl(url)
         })
       })
       .catch(() => {
@@ -59,8 +59,8 @@ const Home: NextPage = () => {
           </FormLabel>
           <Input
             type="url"
-            value={url}
-            onChange={(e) => {setUrl(e.target.value)}}
+            value={longUrl}
+            onChange={(e) => {setLongUrl(e.target.value)}}
           />
           <Button
             type="submit"

@@ -6,13 +6,34 @@ import redis from '../../lib/redis'
 export default async function handler (req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
     case 'GET':
-      res.status(404).json({ msg: '404 not found' })
+      await handleGetShortUrl(req, res)
       return
     case 'POST':
       await handleCreateShortUrl(req, res)
       return
     default:
       res.status(404).json({ msg: '404 not found' })
+  }
+}
+
+const handleGetShortUrl = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { shortid } = req.query
+  if (typeof shortid !== 'string') {
+    res.status(400).json({ msg: 'params error' })
+    return
+  }
+  try {
+    /* judge short id is existing */
+    const longUrl = await redis.get(shortid)
+    if (!longUrl) {
+      res.status(400).json({ msg: 'short id is not existed or expires' })
+      return
+    }
+    res.status(200).json({ url: longUrl })
+    return
+  } catch (e) {
+    res.status(500).json({ msg: 'server get error' })
+    return
   }
 }
 
@@ -56,7 +77,8 @@ const handleCreateShortUrl = async (req: NextApiRequest, res: NextApiResponse) =
     */
     /* default save 30 days url */
     await redis.set(shortId, longUrl, 'EX', 60 * 60 * 24 * 30)
-    res.status(201).json({ shortId: shortId })
+    const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/' : 'https://url-shorter-zwz.vercel.app/'
+    res.status(201).json({ url: `${baseUrl}${shortId}` })
     return
   } catch (e) {
     res.status(500).json({ msg: 'server error' })

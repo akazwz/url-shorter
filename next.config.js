@@ -1,6 +1,12 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
+module.exports = {
+  async redirects () {
+    return [
+      {
+        source: '/:shortid',
+        destination: '/api/:shortid',
+        permanent: true,
+      },
+    ]
+  },
 }
-
-module.exports = nextConfig
