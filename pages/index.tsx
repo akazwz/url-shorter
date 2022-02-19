@@ -17,6 +17,7 @@ import {
   AlertStatus,
 } from '@chakra-ui/react'
 import isUrl from 'is-url'
+import { Check, Copy } from '@icon-park/react'
 import { Layout } from '../components/layout'
 
 const Home: NextPage = () => {
@@ -71,11 +72,11 @@ const Home: NextPage = () => {
       <VStack spacing={10}>
         <Heading>URL Shorter</Heading>
         <FormControl
-          w={{ base: 'sm', sm: 'md', md: 'xl', }}
+          w={{ base: 'xs', sm: 'sm', md: 'md', lg: 'lg' }}
           rounded="lg"
           borderStyle="dotted"
           borderWidth="3px"
-          p={7}
+          p={{ base: 3, md: 7, }}
         >
           <FormLabel>
             URL:
@@ -102,8 +103,8 @@ const Home: NextPage = () => {
               shorter url
             </Text>
             <Box
-              w={{ base: 'sm', sm: 'md', md: 'xl', lg: '3xl', }}
-              p={7}
+              w={{ base: 'xs', sm: 'sm', md: 'md', lg: '3xl' }}
+              p={{ base: 3, md: 7, }}
               rounded="lg"
               borderStyle="dotted"
               borderWidth="3px"
@@ -113,13 +114,15 @@ const Home: NextPage = () => {
                 alignItems="center"
                 textAlign="center"
               >
-                <Link href={shorterUrl} isExternal>
+                <Link href={shorterUrl} color="blue.500" isExternal>
                   {shorterUrl}
                 </Link>
                 <Spacer/>
                 <Button
-                  w={{ base: 'xs', md: '20%' }}
+                  w={{ base: '3xs', md: '25%' }}
+                  p={3}
                   onClick={onCopy}
+                  leftIcon={hasCopied ? <Check fill="#7ed321"/> : <Copy/>}
                 >
                   {hasCopied ? 'Copied' : 'Copy'}
                 </Button>
