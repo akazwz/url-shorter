@@ -20,6 +20,7 @@ const Home: NextPage = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
+    setShorterUrl('')
     setIsBtnLoading(true)
     fetch(`/api/short`, {
       method: 'POST',

@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { Box } from '@chakra-ui/react'
+import { Box, useColorModeValue } from '@chakra-ui/react'
 import { Header } from './header'
 import { Footer } from './footer'
 
@@ -9,13 +9,13 @@ interface IProps {
 
 export const Layout = ({ children }: IProps) => {
   return (
-    <Box>
+    <Box bg={useColorModeValue('white', 'gray.900')} minH="100vh">
       <Header/>
       <Box
         as="main"
         role="contentinfo"
         mx="auto"
-        minH="73vh"
+        minH="72vh"
         py="3"
         /*px={{ base: '4', md: '8' }}*/
       >
