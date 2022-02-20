@@ -1,15 +1,17 @@
 import { NextRequest } from 'next/server'
 
-export default function middleware (req: NextRequest) {
+export async function middleware (req: NextRequest) {
   const { page, ip, geo, ua } = req
   const { name, params } = page
+  if (!params) {
+    return
+  }
   const baseUrl = process.env.HOST_BASE_URL
-  console.log('page name:' + name)
+  const jsonStr = JSON.stringify(params)
+  const { shortid } = JSON.parse(jsonStr)
   if (name === '/api/[shortid]') {
-    const jsonStr = JSON.stringify(params)
-    const { shortid } = JSON.parse(jsonStr)
     /* get short id */
-    fetch(`${baseUrl}/api/visit`, {
+    await fetch(`${baseUrl}/api/visit`, {
       method: 'POST',
       body: JSON.stringify({
         shortId: shortid,
@@ -33,10 +35,6 @@ export default function middleware (req: NextRequest) {
       headers: {
         'Content-Type': 'application/json'
       }
-    }).then((res) => {
-      console.log(res)
-    }).catch((e) => {
-      console.log(e)
     })
   }
 }

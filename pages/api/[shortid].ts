@@ -11,6 +11,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
       return
     default:
       res.status(404).json({ msg: '404 not found' })
+      return
   }
 }
 const handleRedirect = async (req: NextApiRequest, res: NextApiResponse) => {

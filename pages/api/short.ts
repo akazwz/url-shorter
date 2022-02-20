@@ -40,7 +40,6 @@ const handleGetShortUrl = async (req: NextApiRequest, res: NextApiResponse) => {
 
 const handleCreateShortUrl = async (req: NextApiRequest, res: NextApiResponse) => {
   const { longUrl } = req.body
-  console.log(longUrl)
   /* params must be string */
   if (typeof longUrl !== 'string') {
     res.status(400).json({ msg: 'params error' })
