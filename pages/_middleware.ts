@@ -10,7 +10,7 @@ export async function middleware (req: NextRequest) {
   const jsonStr = JSON.stringify(params)
   const { shortid } = JSON.parse(jsonStr)
   if (name === '/api/[shortid]') {
-    /* get short id */
+    /* save visit info */
     await fetch(`${baseUrl}/api/visit`, {
       method: 'POST',
       body: JSON.stringify({
