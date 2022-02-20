@@ -20,11 +20,20 @@ model Link {
   User      User?    @relation(fields: [userId], references: [id])
 }
 
+model Profile {
+  id     String  @id @default(uuid())
+  bio    String?
+  avatar String?
+  user   User    @relation(fields: [userId], references: [id])
+  userId String  @unique
+}
+
 model User {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        String    @id @default(uuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   name      String?
   email     String
   Link      Link[]
+  Profile   Profile[]
 }
