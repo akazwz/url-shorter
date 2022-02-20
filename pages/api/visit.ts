@@ -39,6 +39,7 @@ const handleCollectVisitInfo = async (req: NextApiRequest, res: NextApiResponse)
     return
   } catch (e) {
     console.log('error middleware')
+    console.log(e)
     res.status(500).json({msg: 'error'})
     return
   }
