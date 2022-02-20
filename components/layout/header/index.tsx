@@ -14,7 +14,7 @@ export const Header = () => {
       <HStack spacing={7}>
         <Logo/>
         <Spacer/>
-        <Link href={''} isExternal>Track</Link>
+        <Link href={'/track/dashboard'}>Track</Link>
         <ColorModeToggle/>
       </HStack>
     </Box>
