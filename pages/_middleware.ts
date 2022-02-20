@@ -16,7 +16,13 @@ export async function middleware (req: NextRequest) {
       body: JSON.stringify({
         shortId: shortid,
         ip: ip,
-        geo: geo,
+        geo: {
+          country: geo?.country,
+          city: geo?.city,
+          latitude: geo?.latitude,
+          longitude: geo?.longitude,
+          region: geo?.region,
+        },
         ua: {
           isBot: ua?.isBot,
           uaStr: ua?.ua,
