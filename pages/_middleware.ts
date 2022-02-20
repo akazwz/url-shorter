@@ -12,7 +12,10 @@ export default function middleware (req: NextRequest) {
     fetch(`${baseUrl}/api/visit`, {
       method: 'POST',
       body: JSON.stringify({
-        shortId: shortid, ip: ip, geo: geo, ua: {
+        shortId: shortid,
+        ip: ip,
+        geo: geo,
+        ua: {
           isBot: ua?.isBot,
           uaStr: ua?.ua,
           browserName: ua?.browser.name,

@@ -34,7 +34,6 @@ const handleCollectVisitInfo = async (req: NextApiRequest, res: NextApiResponse)
       }
     })
     console.log(visitInfo)
-    await prisma.vistInfo
   } catch (e) {
     console.log('error middleware')
   } finally {
