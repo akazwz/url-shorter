@@ -1,4 +1,4 @@
-import { Box, HStack, Spacer } from '@chakra-ui/react'
+import { Box, HStack, Link, Spacer } from '@chakra-ui/react'
 import { Logo } from '../logo'
 import { ColorModeToggle } from './ColorModeToggle'
 
@@ -11,9 +11,10 @@ export const Header = () => {
       py="3"
       px={{ base: '4', md: '8' }}
     >
-      <HStack>
+      <HStack spacing={7}>
         <Logo/>
         <Spacer/>
+        <Link href={''} isExternal>Track</Link>
         <ColorModeToggle/>
       </HStack>
     </Box>
