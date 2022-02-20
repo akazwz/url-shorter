@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import isUrl from 'is-url'
 import { nanoid } from 'nanoid'
 import redis from '../../lib/redis'
+import { prisma } from '../../lib/prisma'
 
 export default async function handler (req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
@@ -77,6 +78,12 @@ const handleCreateShortUrl = async (req: NextApiRequest, res: NextApiResponse) =
     */
     /* default save 30 days url */
     await redis.set(shortId, longUrl, 'EX', 60 * 60 * 24 * 30)
+    await prisma.linkInfo.create({
+      data: {
+        url: longUrl,
+        shortId: shortId,
+      }
+    })
     const baseUrl = process.env.HOST_BASE_URL
     res.status(201).json({ url: `${baseUrl}${shortId}` })
     return

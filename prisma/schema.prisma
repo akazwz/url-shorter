@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,14 +7,15 @@ datasource db {
   url      = env("POSTGRES_DATABASE_URL")
 }
 
-model Link {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model LinkInfo {
+  id        String     @id @default(uuid())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
   url       String
-  shortUrl  String
+  shortId   String     @unique
   userId    String?
-  User      User?    @relation(fields: [userId], references: [id])
+  User      User?      @relation(fields: [userId], references: [id])
+  VistInfo  VistInfo[]
 }
 
 model Profile {
@@ -29,11 +27,51 @@ model Profile {
 }
 
 model User {
+  id        String     @id @default(uuid())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  name      String?
+  email     String
+  link      LinkInfo[]
+  Profile   Profile?
+}
+
+model VistInfo {
   id        String    @id @default(uuid())
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  name      String?
-  email     String
-  Link      Link[]
-  Profile   Profile[]
+  ip        String?
+  linkId    String?
+  link      LinkInfo? @relation(fields: [linkId], references: [id])
+  geoInfoId String?
+  geo       GeoInfo?  @relation(fields: [geoInfoId], references: [id])
+  uaInfoId  String?
+  ua        UAInfo?   @relation(fields: [uaInfoId], references: [id])
+}
+
+model GeoInfo {
+  id         String     @id @default(uuid())
+  country    String?
+  city       String?
+  latitude   String?
+  longtitude String?
+  region     String?
+  VistInfo   VistInfo[]
+}
+
+model UAInfo {
+  id              String     @id @default(uuid())
+  isBot           Boolean?
+  uaStr           String?
+  browserName     String?
+  browserVersion  String?
+  osName          String?
+  osVersion       String?
+  cpuArchitecture String?
+  deviceModel     String?
+  deviceType      String?
+  deviceVendor    String?
+  engineName      String?
+  enginVersion    String?
+  VistInfo        VistInfo[]
 }
