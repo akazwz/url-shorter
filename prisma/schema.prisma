@@ -54,7 +54,7 @@ model GeoInfo {
   country    String?
   city       String?
   latitude   String?
-  longtitude String?
+  longitude  String?
   region     String?
   VistInfo   VistInfo[]
 }
