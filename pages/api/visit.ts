@@ -8,6 +8,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
       return
     default:
       res.status(404).json({ msg: '404 not found' })
+      return
   }
 }
 
@@ -35,9 +36,11 @@ const handleCollectVisitInfo = async (req: NextApiRequest, res: NextApiResponse)
     })
     console.log(visitInfo)
     res.status(201)
+    return
   } catch (e) {
     console.log('error middleware')
     res.status(500)
+    return
   } finally {
     await prisma.$disconnect()
   }
