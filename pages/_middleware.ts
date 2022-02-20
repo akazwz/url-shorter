@@ -1,6 +1,6 @@
-import { NextRequest, NextFetchEvent } from 'next/server'
+import { NextRequest } from 'next/server'
 
-export default async function middleware (req: NextRequest, evt: NextFetchEvent) {
+export default function middleware (req: NextRequest) {
   const { page, ip, geo, ua } = req
   const { name, params } = page
   const baseUrl = process.env.HOST_BASE_URL
