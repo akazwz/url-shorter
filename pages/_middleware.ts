@@ -4,6 +4,7 @@ export default async function middleware (req: NextRequest, evt: NextFetchEvent)
   const { page, ip, geo, ua } = req
   const { name, params } = page
   const baseUrl = process.env.HOST_BASE_URL
+  console.log('page name:' + name)
   if (name === '/api/[shortid]') {
     const jsonStr = JSON.stringify(params)
     const { shortid } = JSON.parse(jsonStr)
