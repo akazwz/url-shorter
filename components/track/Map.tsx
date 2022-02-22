@@ -1,12 +1,42 @@
-import { MapContainer, LayersControl, TileLayer, Marker, Popup } from 'react-leaflet'
-import { icon } from 'leaflet'
+import { MapContainer, LayersControl, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
+import { icon, LatLngTuple } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import markerIcon from '../../public/markers/marker.png'
 import visitIcon from '../../public/markers/visiter.png'
 import userIcon from '../../public/markers/user.png'
 import ipIcon from '../../public/markers/ip.png'
+import { useEffect } from 'react'
 
-const Map = () => {
+export interface IMapProps {
+  markersPoints: LatLngTuple[] | null
+}
+
+const FlyToIp = (props: IMapProps) => {
+  const { markersPoints } = props
+  const map = useMap()
+  useEffect(() => {
+    let interval: NodeJS.Timer
+    let i = 0
+    if (!markersPoints) return
+    if (markersPoints.length < 1) return
+    interval = setInterval(() => {
+      i++
+      if (i === markersPoints.length - 1) {
+        i = 0
+      }
+      console.log('inter')
+      console.log(markersPoints[i])
+      map.flyTo(markersPoints[i]).setZoom(10)
+    }, 3000)
+    return () => {
+      clearInterval(interval)
+    }
+  }, [map, markersPoints])
+  return null
+}
+
+const Map = (props: IMapProps) => {
+  const { markersPoints } = props
   const ICON = icon({
     iconUrl: ipIcon.src,
     iconSize: [32, 32],
@@ -14,8 +44,8 @@ const Map = () => {
 
   return (
     <MapContainer
-      center={[51.505, -0.09]}
-      zoom={13}
+      center={[39.9, 116.3]}
+      zoom={10}
       style={{
         height: '45vh',
         width: '100%',
@@ -36,11 +66,19 @@ const Map = () => {
           />
         </LayersControl.BaseLayer>
       </LayersControl>
-      <Marker icon={ICON} position={[51.505, -0.09]}>
-        <Popup>
-          A pretty CSS3 popup. <br/> Easily customizable.
-        </Popup>
-      </Marker>
+
+      {markersPoints ? markersPoints.map((point, index) => {
+          return (
+            <Marker key={'points' + index} icon={ICON} position={point}>
+              <Popup>
+                A pretty CSS3 popup. <br/> Easily customizable.
+              </Popup>
+            </Marker>
+          )
+        }) :
+        null
+      }
+      <FlyToIp markersPoints={markersPoints}/>
     </MapContainer>
   )
 }

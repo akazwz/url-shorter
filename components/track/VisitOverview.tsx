@@ -1,12 +1,20 @@
 import { Box, HStack, SimpleGrid, Spacer, Stat, StatLabel, StatNumber, useColorModeValue } from '@chakra-ui/react'
 import IconPark from '@icon-park/react/lib/all'
 
-export const VisitOverview = () => {
+interface IProps {
+  visitCount: number,
+  ipCount: number,
+  mobileVisit: number,
+  pcVisit: number,
+}
+
+export const VisitOverview = (props: IProps) => {
+  const { visitCount, ipCount, mobileVisit, pcVisit } = props
   const dataVisits = [
-    { title: 'Visit Count', number: 37, iconName: 'PreviewClose' },
-    { title: 'IP Count', number: 37, iconName: 'Earth' },
-    { title: 'Mobile Visit', number: 37, iconName: 'Phone' },
-    { title: 'PC Visit', number: 37, iconName: 'Computer' },
+    { title: 'Visit Count', number: visitCount, iconName: 'PreviewClose' },
+    { title: 'IP Count', number: ipCount, iconName: 'Earth' },
+    { title: 'Mobile Visit', number: mobileVisit, iconName: 'Phone' },
+    { title: 'PC Visit', number: pcVisit, iconName: 'Computer' },
   ]
   return (
     <SimpleGrid
