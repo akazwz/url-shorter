@@ -26,7 +26,7 @@ import { Check, Copy, Info, LinkOne } from '@icon-park/react'
 import { Layout } from '../components/layout'
 import { TrackerTab } from '../components/track/TrackerTab'
 
-const Home: NextPage = () => {
+const Shorter = () => {
   const [longUrl, setLongUrl] = useState<string>('')
   const [shorterUrl, setShorterUrl] = useState<string>('')
   const [isBtnLoading, setIsBtnLoading] = useState<boolean>(false)
@@ -73,74 +73,74 @@ const Home: NextPage = () => {
       })
   }
 
-  const Shorter = () => {
-    return (
-      <VStack spacing={10}>
-        <Heading>URL Shorter</Heading>
-        <FormControl
-          w={{ base: 'xs', sm: 'sm', md: 'md', lg: 'lg' }}
-          rounded="lg"
-          borderStyle="dotted"
-          borderWidth="3px"
-          p={{ base: 3, md: 7, }}
+  return (
+    <VStack spacing={10}>
+      <Heading>URL Shorter</Heading>
+      <FormControl
+        w={{ base: 'xs', sm: 'sm', md: 'md', lg: 'lg' }}
+        rounded="lg"
+        borderStyle="dotted"
+        borderWidth="3px"
+        p={{ base: 3, md: 7, }}
+      >
+        <FormLabel>
+          URL:
+        </FormLabel>
+        <Input
+          type="url"
+          value={longUrl}
+          onChange={(e) => {setLongUrl(e.target.value)}}
+        />
+        <Button
+          type="submit"
+          onClick={handleSubmit}
+          isLoading={isBtnLoading}
+          colorScheme="blue"
+          mt={3}
+          disabled={!isUrl(longUrl)}
         >
-          <FormLabel>
-            URL:
-          </FormLabel>
-          <Input
-            type="url"
-            value={longUrl}
-            onChange={(e) => {setLongUrl(e.target.value)}}
-          />
-          <Button
-            type="submit"
-            onClick={handleSubmit}
-            isLoading={isBtnLoading}
-            colorScheme="blue"
-            mt={3}
-            disabled={!isUrl(longUrl)}
+          Submit
+        </Button>
+      </FormControl>
+      {shorterUrl.length > 0
+        ? <>
+          <Text fontSize="lg">
+            shorter url
+          </Text>
+          <Box
+            w={{ base: 'xs', sm: 'sm', md: 'md', lg: '3xl' }}
+            p={{ base: 3, md: 7, }}
+            rounded="lg"
+            borderStyle="dotted"
+            borderWidth="3px"
           >
-            Submit
-          </Button>
-        </FormControl>
-        {shorterUrl.length > 0
-          ? <>
-            <Text fontSize="lg">
-              shorter url
-            </Text>
-            <Box
-              w={{ base: 'xs', sm: 'sm', md: 'md', lg: '3xl' }}
-              p={{ base: 3, md: 7, }}
-              rounded="lg"
-              borderStyle="dotted"
-              borderWidth="3px"
+            <Stack
+              direction={{ base: 'column', md: 'row' }}
+              alignItems="center"
+              textAlign="center"
             >
-              <Stack
-                direction={{ base: 'column', md: 'row' }}
-                alignItems="center"
-                textAlign="center"
+              <Link href={shorterUrl} color="blue.500" isExternal>
+                {shorterUrl}
+              </Link>
+              <Spacer/>
+              <Button
+                w={{ base: '3xs', md: '25%' }}
+                p={3}
+                onClick={onCopy}
+                leftIcon={hasCopied ? <Check fill="#7ed321"/> : <Copy/>}
               >
-                <Link href={shorterUrl} color="blue.500" isExternal>
-                  {shorterUrl}
-                </Link>
-                <Spacer/>
-                <Button
-                  w={{ base: '3xs', md: '25%' }}
-                  p={3}
-                  onClick={onCopy}
-                  leftIcon={hasCopied ? <Check fill="#7ed321"/> : <Copy/>}
-                >
-                  {hasCopied ? 'Copied' : 'Copy'}
-                </Button>
-              </Stack>
-            </Box>
-          </>
-          : null
-        }
-      </VStack>
-    )
-  }
+                {hasCopied ? 'Copied' : 'Copy'}
+              </Button>
+            </Stack>
+          </Box>
+        </>
+        : null
+      }
+    </VStack>
+  )
+}
 
+const Home: NextPage = () => {
   return (
     <Layout>
       <Tabs isFitted variant="enclosed" maxW={'5xl'} mx={'auto'} mt={7}>
