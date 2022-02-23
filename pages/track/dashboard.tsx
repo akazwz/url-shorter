@@ -74,8 +74,10 @@ const Dashboard = () => {
         pcVisit={pcVisit}
       />
       <Stack
-        m={3}
         mt={6}
+        mb={6}
+        ml={3}
+        mr={3}
         direction={{ base: 'column', md: 'row' }}
       >
         <Box w={'100%'} rounded="lg" boxShadow="dark-lg">
