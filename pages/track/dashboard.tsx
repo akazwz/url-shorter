@@ -80,7 +80,12 @@ const Dashboard = () => {
         mr={3}
         direction={{ base: 'column', md: 'row' }}
       >
-        <Box w={'100%'} rounded="lg" boxShadow="dark-lg">
+        <Box
+          w="100%"
+          rounded="lg"
+          boxShadow="dark-lg"
+          overflow="hidden"
+        >
           <MyMap markersPoints={markerPoints}/>
         </Box>
         <Center>
