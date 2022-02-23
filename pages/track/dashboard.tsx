@@ -1,15 +1,16 @@
 import dynamic from 'next/dynamic'
 import {
   Box,
-  Center, Container, SimpleGrid, Square,
   Stack,
+  Center,
+  SimpleGrid,
 } from '@chakra-ui/react'
 import { VisitOverview } from '../../components/track/VisitOverview'
 import Cobe from '../../components/track/Cobe'
 import { useEffect, useState } from 'react'
 import { LinkInfo, VisitInfo } from '../../src/types/track'
-import BrowserNamePie from '../../components/track/BrowserNamePie'
-import { uniqueAndCountArr } from '../../src/utils/arrayUtils'
+import CommonPie from '../../components/track/CommonPie'
+import { generatePieDataFromStringArr, PieData } from '../../src/utils/chart'
 
 const MyMap = dynamic(() => import('../../components/track/Map'), { ssr: false })
 
@@ -18,12 +19,7 @@ export type ResTrackInfo = {
   visitInfo: VisitInfo[]
 }
 
-export type PieData = {
-  type: string,
-  value: number
-}
-
-const mobileOSName = ['iOS',]
+const mobileOSName = ['iOS', 'Android']
 
 const Dashboard = () => {
   const shortId = 'V43uJ'
@@ -36,6 +32,8 @@ const Dashboard = () => {
 
   const [browserNamePieDataState, setBrowserNamePieData] = useState<PieData[]>([])
   const [osNamePieDataState, setOSNamePieData] = useState<PieData[]>([])
+  const [deviceVendorDataState, setDeviceVendorPieData] = useState<PieData[]>([])
+  const [deviceModelPieDataState, setDeviceModelPieData] = useState<PieData[]>([])
 
   useEffect(() => {
     fetch(`/api/track/${shortId}`)
@@ -49,6 +47,8 @@ const Dashboard = () => {
           let ips: string[] = []
           let browserNames: string[] = []
           let osNames: string[] = []
+          let deviceVendors: string[] = []
+          let deviceModels: string[] = []
           let mobileOSNames: string[] = []
           let pcOSNames: string[] = []
           let latlngs: [number, number][] = []
@@ -73,12 +73,19 @@ const Dashboard = () => {
             const osName = visit.ua.osName
             osNames.push(osName)
 
+            /* device vendor */
+            const deviceVendor = visit.ua.deviceVendor
+            deviceVendors.push(deviceVendor)
+
+            /* device model */
+            const deviceModel = visit.ua.deviceModel
+            deviceModels.push(deviceModel)
+
             /* lat lng */
             if (map.get(Number(visit.geo.latitude)) !== Number(visit.geo.longitude)) {
               latlngs.push([Number(visit.geo.latitude), Number(visit.geo.longitude)])
             }
             map.set(Number(visit.geo.latitude), Number(visit.geo.longitude))
-
           })
 
           setIPCount(Array.from(new Set(ips)).length)
@@ -87,15 +94,13 @@ const Dashboard = () => {
           setMarkerPoints(Array.from(new Set(latlngs)))
 
           /* browser name pie data */
-          const browserNameObj = uniqueAndCountArr(browserNames)
-          const typesBrowserName = Object.keys(browserNameObj)
-          const valuesBrowserName = Object.values(browserNameObj) as number[]
-          let browserNamePieData: PieData[] = []
-          for (let i = 0; i < typesBrowserName.length; i++) {
-            browserNamePieData.push({ type: typesBrowserName[i], value: valuesBrowserName[i] })
-          }
-          setBrowserNamePieData(browserNamePieData)
-          
+          setBrowserNamePieData(generatePieDataFromStringArr(browserNames))
+          /* os name pie data */
+          setOSNamePieData(generatePieDataFromStringArr(osNames))
+          /* device vendor */
+          setDeviceVendorPieData(generatePieDataFromStringArr(deviceVendors))
+          /* device model */
+          setDeviceModelPieData(generatePieDataFromStringArr(deviceModels))
         })
 
       }).catch((e) => {
@@ -143,7 +148,7 @@ const Dashboard = () => {
           boxShadow={'dark-lg'}
           rounded={'lg'}
         >
-          <BrowserNamePie pieData={browserNamePieDataState}/>
+          <CommonPie title={'OS'} pieData={osNamePieDataState}/>
         </Box>
         <Box
           w={'100%'}
@@ -152,7 +157,7 @@ const Dashboard = () => {
           boxShadow={'dark-lg'}
           rounded={'lg'}
         >
-          <BrowserNamePie pieData={browserNamePieDataState}/>
+          <CommonPie title={'Browser'} pieData={browserNamePieDataState}/>
         </Box>
         <Box
           w={'100%'}
@@ -161,7 +166,7 @@ const Dashboard = () => {
           boxShadow={'dark-lg'}
           rounded={'lg'}
         >
-          <BrowserNamePie pieData={browserNamePieDataState}/>
+          <CommonPie title={'Device Vendor'} pieData={deviceVendorDataState}/>
         </Box>
         <Box
           w={'100%'}
@@ -170,7 +175,7 @@ const Dashboard = () => {
           boxShadow={'dark-lg'}
           rounded={'lg'}
         >
-          <BrowserNamePie pieData={browserNamePieDataState}/>
+          <CommonPie title={'Device Model'} pieData={deviceModelPieDataState}/>
         </Box>
       </SimpleGrid>
     </Box>

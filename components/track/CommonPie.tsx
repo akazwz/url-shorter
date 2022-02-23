@@ -1,11 +1,12 @@
 import { Pie, measureTextWidth } from '@ant-design/plots'
-import { PieData } from '../../pages/track/dashboard'
+import { PieData } from '../../src/utils/chart'
 
 interface IProps {
+  title: string
   pieData: PieData[]
 }
 
-const BrowserNamePie = (props: IProps) => {
+const CommonPie = (props: IProps) => {
   function renderStatistic (containerWidth: number, text: string, style: { fontSize: string }) {
     const { width: textWidth, height: textHeight } = measureTextWidth(text, style)
     const R = containerWidth / 2 // r^2 = (w / 2)^2 + (h - offsetY)^2
@@ -47,7 +48,7 @@ const BrowserNamePie = (props: IProps) => {
         customHtml: (container: any, view: any, datum: any) => {
           const { width, height } = container.getBoundingClientRect()
           const d = Math.sqrt(Math.pow(width / 2, 2) + Math.pow(height / 2, 2))
-          const text = datum ? datum.type : 'Browsers'
+          const text = datum ? datum.type : props.title
           return `<text style="font-size: small; line-height: initial">${text}</text>`
         },
       },
@@ -76,4 +77,4 @@ const BrowserNamePie = (props: IProps) => {
   return <Pie {...config} />
 }
 
-export default BrowserNamePie
+export default CommonPie
