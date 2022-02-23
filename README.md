@@ -14,7 +14,8 @@
 
 ## ScreenShot
 
-<img alt="url shorter" src="docs/images/url_shorter_mobile.png" height="400" width="200">
+<img alt="url shorter mobile" src="docs/images/shorter_mobile.png" height="400" width="200">
+<img alt="url tracker" src="docs/images/tracker.png" height="400" width="400">
 <img alt="track dashboard" src="docs/images/track_dashboard_dark_map.png" height="300" width="600">
 <img alt="track dashboard mobile" src="docs/images/track_dashboard_mobile.png" height="400" width="200">
 

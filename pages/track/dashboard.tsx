@@ -1,13 +1,15 @@
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 import {
   Box,
   Stack,
   Center,
+  Spinner,
   SimpleGrid,
 } from '@chakra-ui/react'
 import { VisitOverview } from '../../components/track/VisitOverview'
 import Cobe from '../../components/track/Cobe'
-import { useEffect, useState } from 'react'
 import { LinkInfo, VisitInfo } from '../../src/types/track'
 import CommonPie from '../../components/track/CommonPie'
 import { generatePieDataFromStringArr, PieData } from '../../src/utils/chart'
@@ -22,8 +24,9 @@ export type ResTrackInfo = {
 const mobileOSName = ['iOS', 'Android']
 
 const Dashboard = () => {
-  const shortId = 'V43uJ'
-  const [visitCount, setVisitCount] = useState<number>(0)
+  const router = useRouter()
+
+  const [visitCount, setVisitCount] = useState<number | null>(null)
   const [ipCount, setIPCount] = useState<number>(0)
   const [mobileVisit, setMobileVisit] = useState<number>(0)
   const [pcVisit, setPCVisit] = useState<number>(0)
@@ -36,13 +39,21 @@ const Dashboard = () => {
   const [deviceModelPieDataState, setDeviceModelPieData] = useState<PieData[]>([])
 
   useEffect(() => {
-    fetch(`/api/track/${shortId}`)
+    if (!router.isReady) return
+    const { shortid } = router.query
+    fetch(`/api/track/${shortid}`)
       .then((res) => {
         if (!res.ok) {
-          alert('error')
+          alert('short id error')
+          router.push('/').then()
           return
         }
         res.json().then((resData: ResTrackInfo) => {
+          if (!resData.linkInfo) {
+            alert('no such short id')
+            router.push('/').then()
+            return
+          }
           setVisitCount(resData.visitInfo.length)
           let ips: string[] = []
           let browserNames: string[] = []
@@ -105,12 +116,23 @@ const Dashboard = () => {
 
       }).catch((e) => {
       console.log(e)
+      alert('error')
+      router.push('/').then()
     })
-  }, [])
+  }, [router])
+
+  if (!visitCount) {
+    return (
+      <Center h={'100vh'}>
+        <Spinner/>
+      </Center>
+    )
+  }
+
   return (
     <Box w={'100vw'} minH={'100vh'} p={3} bg={'gray.900'}>
       <VisitOverview
-        visitCount={visitCount}
+        visitCount={visitCount || 0}
         ipCount={ipCount}
         mobileVisit={mobileVisit}
         pcVisit={pcVisit}

@@ -14,7 +14,9 @@
 
 ## 项目截图
 
-<img alt="短链生成" src="docs/images/url_shorter_mobile.png" height="400" width="200">
+
+<img alt="短链生成-移动设备" src="docs/images/shorter_mobile.png" height="400" width="200">
+<img alt="短链访客追踪" src="docs/images/tracker.png" height="400" width="400">
 <img alt="短链追踪仪表盘" src="docs/images/track_dashboard_dark_map.png" height="300" width="600">
 <img alt="短链追踪仪表盘-移动设备" src="docs/images/track_dashboard_mobile.png" height="400" width="200">
 

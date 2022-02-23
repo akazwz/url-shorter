@@ -2,6 +2,8 @@ import { FormEvent, useState } from 'react'
 import type { NextPage } from 'next'
 import {
   Box,
+  Tab,
+  Tabs,
   Link,
   Text,
   Stack,
@@ -9,7 +11,10 @@ import {
   Spacer,
   Button,
   VStack,
+  TabList,
   Heading,
+  TabPanel,
+  TabPanels,
   FormLabel,
   FormControl,
   useClipboard,
@@ -17,8 +22,9 @@ import {
   AlertStatus,
 } from '@chakra-ui/react'
 import isUrl from 'is-url'
-import { Check, Copy } from '@icon-park/react'
+import { Check, Copy, Info, LinkOne } from '@icon-park/react'
 import { Layout } from '../components/layout'
+import { TrackerTab } from '../components/track/TrackerTab'
 
 const Home: NextPage = () => {
   const [longUrl, setLongUrl] = useState<string>('')
@@ -67,8 +73,8 @@ const Home: NextPage = () => {
       })
   }
 
-  return (
-    <Layout>
+  const Shorter = () => {
+    return (
       <VStack spacing={10}>
         <Heading>URL Shorter</Heading>
         <FormControl
@@ -132,6 +138,35 @@ const Home: NextPage = () => {
           : null
         }
       </VStack>
+    )
+  }
+
+  return (
+    <Layout>
+      <Tabs isFitted variant="enclosed" maxW={'5xl'} mx={'auto'} mt={7}>
+        <TabList mb="1rem">
+          <Tab>
+            <LinkOne/>
+            <Text ml={3}>
+              Shorter
+            </Text>
+          </Tab>
+          <Tab>
+            <Info/>
+            <Text ml={3}>
+              Tracker
+            </Text>
+          </Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel>
+            <Shorter/>
+          </TabPanel>
+          <TabPanel>
+            <TrackerTab/>
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
     </Layout>
   )
 }
