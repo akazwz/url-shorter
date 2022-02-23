@@ -26,7 +26,9 @@ const mobileOSName = ['iOS', 'Android']
 const Dashboard = () => {
   const router = useRouter()
 
-  const [visitCount, setVisitCount] = useState<number | null>(null)
+  const [isShortIdExist, setIsShortIdExist] = useState<boolean>(false)
+
+  const [visitCount, setVisitCount] = useState<number>(0)
   const [ipCount, setIPCount] = useState<number>(0)
   const [mobileVisit, setMobileVisit] = useState<number>(0)
   const [pcVisit, setPCVisit] = useState<number>(0)
@@ -54,6 +56,7 @@ const Dashboard = () => {
             router.push('/').then()
             return
           }
+          setIsShortIdExist(true)
           setVisitCount(resData.visitInfo.length)
           let ips: string[] = []
           let browserNames: string[] = []
@@ -121,7 +124,7 @@ const Dashboard = () => {
     })
   }, [router])
 
-  if (!visitCount) {
+  if (!isShortIdExist) {
     return (
       <Center h={'100vh'}>
         <Spinner/>
@@ -132,7 +135,7 @@ const Dashboard = () => {
   return (
     <Box w={'100vw'} minH={'100vh'} p={3} bg={'gray.900'}>
       <VisitOverview
-        visitCount={visitCount || 0}
+        visitCount={visitCount}
         ipCount={ipCount}
         mobileVisit={mobileVisit}
         pcVisit={pcVisit}
