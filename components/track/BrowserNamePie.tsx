@@ -1,7 +1,12 @@
 import { Pie, measureTextWidth } from '@ant-design/plots'
+import { PieData } from '../../pages/track/dashboard'
 
-const BrowserNamePie = () => {
-  function renderStatistic (containerWidth: number, text: string, style: { fontSize: number }) {
+interface IProps {
+  pieData: PieData[]
+}
+
+const BrowserNamePie = (props: IProps) => {
+  function renderStatistic (containerWidth: number, text: string, style: { fontSize: string }) {
     const { width: textWidth, height: textHeight } = measureTextWidth(text, style)
     const R = containerWidth / 2 // r^2 = (w / 2)^2 + (h - offsetY)^2
 
@@ -15,24 +20,7 @@ const BrowserNamePie = () => {
     return `<div style="${textStyleStr};font-size:${scale}em;line-height:${scale < 1 ? 1 : 'inherit'};">${text}</div>`
   }
 
-  const data = [
-    {
-      type: 'Chrome',
-      value: 27,
-    },
-    {
-      type: 'Edge',
-      value: 25,
-    },
-    {
-      type: 'Safari',
-      value: 18,
-    },
-    {
-      type: 'Other',
-      value: 5,
-    },
-  ]
+  const data = props.pieData
   const config = {
     appendPadding: 10,
     data,
@@ -42,41 +30,33 @@ const BrowserNamePie = () => {
     innerRadius: 0.64,
     meta: {
       value: {
-        formatter: (v: any) => `${v} ¥`,
+        formatter: (v: any) => `${v}`,
       },
     },
     label: {
       type: 'inner',
       offset: '-50%',
-      style: {
-        textAlign: 'center',
-      },
+      style: { textAlign: 'center', overflow: 'hidden' },
       autoRotate: false,
       content: '{value}',
+      autoHide: true,
     },
     statistic: {
       title: {
-        offsetY: -4,
+        offsetY: -7,
         customHtml: (container: any, view: any, datum: any) => {
           const { width, height } = container.getBoundingClientRect()
           const d = Math.sqrt(Math.pow(width / 2, 2) + Math.pow(height / 2, 2))
-          const text = datum ? datum.type : 'SUM'
-          return renderStatistic(d, text, {
-            fontSize: 28,
-          })
+          const text = datum ? datum.type : 'Browsers'
+          return `<text style="font-size: small; line-height: initial">${text}</text>`
         },
       },
       content: {
-        offsetY: 4,
-        style: {
-          fontSize: '32px',
-        },
+        offsetY: 7,
         customHtml: (container: any, view: any, datum: any) => {
           const { width } = container.getBoundingClientRect()
           const text = datum ? `${datum.value}` : `${data.reduce((r, d) => r + d.value, 0)}`
-          return renderStatistic(width, text, {
-            fontSize: 32,
-          })
+          return `<text style="font-size: 24px; line-height: initial">${text}</text>`
         },
       },
     },

@@ -9,12 +9,18 @@ import Cobe from '../../components/track/Cobe'
 import { useEffect, useState } from 'react'
 import { LinkInfo, VisitInfo } from '../../src/types/track'
 import BrowserNamePie from '../../components/track/BrowserNamePie'
+import { uniqueAndCountArr } from '../../src/utils/arrayUtils'
 
 const MyMap = dynamic(() => import('../../components/track/Map'), { ssr: false })
 
 export type ResTrackInfo = {
   linkInfo: LinkInfo,
   visitInfo: VisitInfo[]
+}
+
+export type PieData = {
+  type: string,
+  value: number
 }
 
 const mobileOSName = ['iOS',]
@@ -28,6 +34,9 @@ const Dashboard = () => {
 
   const [markerPoints, setMarkerPoints] = useState<[number, number][] | null>(null)
 
+  const [browserNamePieDataState, setBrowserNamePieData] = useState<PieData[]>([])
+  const [osNamePieDataState, setOSNamePieData] = useState<PieData[]>([])
+
   useEffect(() => {
     fetch(`/api/track/${shortId}`)
       .then((res) => {
@@ -38,33 +47,61 @@ const Dashboard = () => {
         res.json().then((resData: ResTrackInfo) => {
           setVisitCount(resData.visitInfo.length)
           let ips: string[] = []
-          const mobileOSNames = []
-          const pcOSNames = []
+          let browserNames: string[] = []
+          let osNames: string[] = []
+          let mobileOSNames: string[] = []
+          let pcOSNames: string[] = []
           let latlngs: [number, number][] = []
           let map = new Map()
           resData.visitInfo.map((visit) => {
             const ip = visit.ip
+            /* ip count */
             ips.push(ip)
-            /* mobile */
+
+            /* mobile or pc */
             if (mobileOSName.includes(visit.ua.osName)) {
               mobileOSNames.push(visit.ua.osName)
             } else {
               pcOSNames.push(visit.ua.osName)
             }
+
+            /* browser name */
+            const browserName = visit.ua.browserName
+            browserNames.push(browserName)
+
+            /* os name */
+            const osName = visit.ua.osName
+            osNames.push(osName)
+
+            /* lat lng */
             if (map.get(Number(visit.geo.latitude)) !== Number(visit.geo.longitude)) {
               latlngs.push([Number(visit.geo.latitude), Number(visit.geo.longitude)])
             }
             map.set(Number(visit.geo.latitude), Number(visit.geo.longitude))
+
           })
+
           setIPCount(Array.from(new Set(ips)).length)
           setMobileVisit(mobileOSNames.length)
           setPCVisit(pcOSNames.length)
           setMarkerPoints(Array.from(new Set(latlngs)))
+
+          /* browser name pie data */
+          const browserNameObj = uniqueAndCountArr(browserNames)
+          const typesBrowserName = Object.keys(browserNameObj)
+          const valuesBrowserName = Object.values(browserNameObj) as number[]
+          let browserNamePieData: PieData[] = []
+          for (let i = 0; i < typesBrowserName.length; i++) {
+            browserNamePieData.push({ type: typesBrowserName[i], value: valuesBrowserName[i] })
+          }
+          setBrowserNamePieData(browserNamePieData)
+          
         })
+
       }).catch((e) => {
       console.log(e)
     })
-  }, [visitCount])
+  }, [])
   return (
     <Box w={'100vw'} minH={'100vh'} p={3} bg={'gray.900'}>
       <VisitOverview
@@ -106,7 +143,7 @@ const Dashboard = () => {
           boxShadow={'dark-lg'}
           rounded={'lg'}
         >
-          <BrowserNamePie/>
+          <BrowserNamePie pieData={browserNamePieDataState}/>
         </Box>
         <Box
           w={'100%'}
@@ -115,7 +152,7 @@ const Dashboard = () => {
           boxShadow={'dark-lg'}
           rounded={'lg'}
         >
-          <BrowserNamePie/>
+          <BrowserNamePie pieData={browserNamePieDataState}/>
         </Box>
         <Box
           w={'100%'}
@@ -124,7 +161,7 @@ const Dashboard = () => {
           boxShadow={'dark-lg'}
           rounded={'lg'}
         >
-          <BrowserNamePie/>
+          <BrowserNamePie pieData={browserNamePieDataState}/>
         </Box>
         <Box
           w={'100%'}
@@ -133,7 +170,7 @@ const Dashboard = () => {
           boxShadow={'dark-lg'}
           rounded={'lg'}
         >
-          <BrowserNamePie/>
+          <BrowserNamePie pieData={browserNamePieDataState}/>
         </Box>
       </SimpleGrid>
     </Box>
