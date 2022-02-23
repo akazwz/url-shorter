@@ -2,6 +2,11 @@ import React, { useEffect, useRef } from 'react'
 /* @ts-ignore */
 import createGlobe from 'cobe'
 
+export interface ICobeprops {
+  size: number,
+  markers: [][]
+}
+
 const Cobe = (props: { size: number }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   useEffect(() => {

@@ -1,11 +1,20 @@
-import { MapContainer, LayersControl, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
+import { useEffect, useState } from 'react'
+import {
+  Popup,
+  Marker,
+  TileLayer,
+  LayersControl,
+  MapContainer,
+  useMap,
+} from 'react-leaflet'
 import { icon, LatLngTuple } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import markerIcon from '../../public/markers/marker.png'
 import visitIcon from '../../public/markers/visiter.png'
 import userIcon from '../../public/markers/user.png'
 import ipIcon from '../../public/markers/ip.png'
-import { useEffect } from 'react'
+
+import { Center, Switch } from '@chakra-ui/react'
 
 export interface IMapProps {
   markersPoints: LatLngTuple[] | null
@@ -18,16 +27,16 @@ const FlyToIp = (props: IMapProps) => {
     let interval: NodeJS.Timer
     let i = 0
     if (!markersPoints) return
+    console.log(markersPoints.length)
     if (markersPoints.length < 1) return
     interval = setInterval(() => {
-      i++
-      if (i === markersPoints.length - 1) {
+      if (i === markersPoints.length) {
         i = 0
       }
-      console.log('inter')
-      console.log(markersPoints[i])
-      map.flyTo(markersPoints[i]).setZoom(10)
-    }, 3000)
+      map.flyTo(markersPoints[i])
+      i++
+    }, 7000)
+
     return () => {
       clearInterval(interval)
     }
@@ -37,8 +46,10 @@ const FlyToIp = (props: IMapProps) => {
 
 const Map = (props: IMapProps) => {
   const { markersPoints } = props
+
+  const [isAnimated, setIsAnimated] = useState<boolean>(true)
   const ICON = icon({
-    iconUrl: ipIcon.src,
+    iconUrl: visitIcon.src,
     iconSize: [32, 32],
   })
 
@@ -53,20 +64,19 @@ const Map = (props: IMapProps) => {
       }}
     >
       <LayersControl position="topright">
-        <LayersControl.BaseLayer checked name="MapBoxDark">
+        <LayersControl.BaseLayer checked name="OpenStreetMap.Mapnik">
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+        </LayersControl.BaseLayer>
+        <LayersControl.BaseLayer name="MapBoxDark">
           <TileLayer
             url="https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}"
             id="mapbox/dark-v10"
             accessToken="pk.eyJ1IjoiYWthend6IiwiYSI6ImNreDdvbGpodjM0NTYydXFvZ2JzMnQycDUifQ.OX_1hbGyke9K5ZZobjXRHQ"
           />
         </LayersControl.BaseLayer>
-        <LayersControl.BaseLayer name="OpenStreetMap.Mapnik">
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-        </LayersControl.BaseLayer>
       </LayersControl>
-
       {markersPoints ? markersPoints.map((point, index) => {
           return (
             <Marker key={'points' + index} icon={ICON} position={point}>
@@ -78,7 +88,20 @@ const Map = (props: IMapProps) => {
         }) :
         null
       }
-      <FlyToIp markersPoints={markersPoints}/>
+      {
+        isAnimated
+          ? <FlyToIp markersPoints={markersPoints}/>
+          : null
+      }
+
+      <Center className={'leaflet-bottom leaflet-left '}>
+        <Switch
+          colorScheme="blue"
+          className={'leaflet-control leaflet-bar'}
+          isChecked={isAnimated}
+          onChange={() => {setIsAnimated(!isAnimated)}}
+        />
+      </Center>
     </MapContainer>
   )
 }

@@ -9,7 +9,7 @@ import Cobe from '../../components/track/Cobe'
 import { useEffect, useState } from 'react'
 import { LinkInfo, VisitInfo } from '../../src/types/track'
 
-const Map = dynamic(() => import('../../components/track/Map'), { ssr: false })
+const MyMap = dynamic(() => import('../../components/track/Map'), { ssr: false })
 
 export type ResTrackInfo = {
   linkInfo: LinkInfo,
@@ -42,6 +42,7 @@ const Dashboard = () => {
           const mobileOSNames = []
           const pcOSNames = []
           let latlngs: [number, number][] = []
+          let map = new Map()
           resData.visitInfo.map((visit) => {
             const ip = visit.ip
             ips.push(ip)
@@ -51,7 +52,10 @@ const Dashboard = () => {
             } else {
               pcOSNames.push(visit.ua.osName)
             }
-            latlngs.push([Number(visit.geo.latitude), Number(visit.geo.longitude)])
+            if (map.get(Number(visit.geo.latitude)) !== Number(visit.geo.longitude)) {
+              latlngs.push([Number(visit.geo.latitude), Number(visit.geo.longitude)])
+            }
+            map.set(Number(visit.geo.latitude), Number(visit.geo.longitude))
           })
           setIPCount(Array.from(new Set(ips)).length)
           setMobileVisit(mobileOSNames.length)
@@ -71,7 +75,7 @@ const Dashboard = () => {
         pcVisit={pcVisit}
       />
       <Stack m={3} direction={{ base: 'column', md: 'row' }}>
-        <Map markersPoints={markerPoints}/>
+        <MyMap markersPoints={markerPoints}/>
         <Center>
           <Cobe size={800}/>
         </Center>
