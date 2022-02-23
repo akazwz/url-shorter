@@ -1,13 +1,17 @@
 import React, { useEffect, useRef } from 'react'
 /* @ts-ignore */
 import createGlobe from 'cobe'
+import { LatLngTuple } from 'leaflet'
 
 export interface ICobeprops {
   size: number,
-  markers: [][]
+  markers?: {
+    location: number[],
+    size: number
+  }[]
 }
 
-const Cobe = (props: { size: number }) => {
+const Cobe = (props: ICobeprops) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   useEffect(() => {
     let phi = 0
@@ -24,11 +28,7 @@ const Cobe = (props: { size: number }) => {
       baseColor: [0.3, 0.3, 0.3],
       markerColor: [0.1, 0.8, 1],
       glowColor: [1, 1, 1],
-      markers: [
-        // longitude latitude
-        { location: [37.7595, -122.4367], size: 0.03 },
-        { location: [40.7128, -74.006], size: 0.1 }
-      ],
+      markers: props.markers || [{location: [39.9, 116.3], size: 0.05}],
       onRender: (state: any) => {
         // Called on every animation frame.
         // `state` will be an empty object, return updated params.
@@ -40,7 +40,7 @@ const Cobe = (props: { size: number }) => {
     return () => {
       globe.destroy()
     }
-  }, [props.size])
+  }, [props.markers, props.size])
   return (<canvas
     ref={canvasRef}
     style={{

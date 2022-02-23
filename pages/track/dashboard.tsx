@@ -77,7 +77,9 @@ const Dashboard = () => {
       <Stack m={3} direction={{ base: 'column', md: 'row' }}>
         <MyMap markersPoints={markerPoints}/>
         <Center>
-          <Cobe size={800}/>
+          <Cobe size={800} markers={markerPoints?.map((point)=>{
+            return {location: point, size: 0.05}
+          })}/>
         </Center>
       </Stack>
     </Box>
