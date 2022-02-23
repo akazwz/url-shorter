@@ -66,7 +66,7 @@ const Dashboard = () => {
     })
   }, [visitCount])
   return (
-    <Box minH={'100vh'} p={3} bg={'gray.900'}>
+    <Box w={'100vw'} minH={'100vh'} p={3} bg={'gray.900'}>
       <VisitOverview
         visitCount={visitCount}
         ipCount={ipCount}
@@ -80,7 +80,7 @@ const Dashboard = () => {
       >
         <MyMap markersPoints={markerPoints}/>
         <Center>
-          <Cobe size={900} markers={markerPoints?.map((point) => {
+          <Cobe size={800} markers={markerPoints?.map((point) => {
             return { location: point, size: 0.05 }
           })}/>
         </Center>
