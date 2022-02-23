@@ -80,7 +80,7 @@ const Dashboard = () => {
       >
         <MyMap markersPoints={markerPoints}/>
         <Center>
-          <Cobe size={800} markers={markerPoints?.map((point) => {
+          <Cobe size={750} markers={markerPoints?.map((point) => {
             return { location: point, size: 0.05 }
           })}/>
         </Center>
