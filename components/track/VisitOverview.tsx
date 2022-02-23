@@ -19,6 +19,8 @@ export const VisitOverview = (props: IProps) => {
   return (
     <SimpleGrid
       columns={{ base: 1, md: 2, lg: 4 }}
+      gap={6}
+      m={3}
     >
       {dataVisits.map((item, index) => {
         return (
@@ -30,7 +32,6 @@ export const VisitOverview = (props: IProps) => {
             justifyContent={'center'}
             rounded={'lg'}
             p={10}
-            m={3}
           >
             <Stat>
               <StatLabel>{item.title}</StatLabel>

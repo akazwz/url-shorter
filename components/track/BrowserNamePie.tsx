@@ -17,27 +17,19 @@ const BrowserNamePie = () => {
 
   const data = [
     {
-      type: '分类一',
+      type: 'Chrome',
       value: 27,
     },
     {
-      type: '分类二',
+      type: 'Edge',
       value: 25,
     },
     {
-      type: '分类三',
+      type: 'Safari',
       value: 18,
     },
     {
-      type: '分类四',
-      value: 15,
-    },
-    {
-      type: '分类五',
-      value: 10,
-    },
-    {
-      type: '其他',
+      type: 'Other',
       value: 5,
     },
   ]
@@ -68,7 +60,7 @@ const BrowserNamePie = () => {
         customHtml: (container: any, view: any, datum: any) => {
           const { width, height } = container.getBoundingClientRect()
           const d = Math.sqrt(Math.pow(width / 2, 2) + Math.pow(height / 2, 2))
-          const text = datum ? datum.type : '总计'
+          const text = datum ? datum.type : 'SUM'
           return renderStatistic(d, text, {
             fontSize: 28,
           })
@@ -81,7 +73,7 @@ const BrowserNamePie = () => {
         },
         customHtml: (container: any, view: any, datum: any) => {
           const { width } = container.getBoundingClientRect()
-          const text = datum ? `¥ ${datum.value}` : `¥ ${data.reduce((r, d) => r + d.value, 0)}`
+          const text = datum ? `${datum.value}` : `${data.reduce((r, d) => r + d.value, 0)}`
           return renderStatistic(width, text, {
             fontSize: 32,
           })

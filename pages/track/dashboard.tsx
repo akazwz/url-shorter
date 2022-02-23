@@ -1,13 +1,14 @@
 import dynamic from 'next/dynamic'
 import {
   Box,
-  Center,
+  Center, Container, SimpleGrid, Square,
   Stack,
 } from '@chakra-ui/react'
 import { VisitOverview } from '../../components/track/VisitOverview'
 import Cobe from '../../components/track/Cobe'
 import { useEffect, useState } from 'react'
 import { LinkInfo, VisitInfo } from '../../src/types/track'
+import BrowserNamePie from '../../components/track/BrowserNamePie'
 
 const MyMap = dynamic(() => import('../../components/track/Map'), { ssr: false })
 
@@ -30,13 +31,11 @@ const Dashboard = () => {
   useEffect(() => {
     fetch(`/api/track/${shortId}`)
       .then((res) => {
-        console.log(res)
         if (!res.ok) {
           alert('error')
           return
         }
         res.json().then((resData: ResTrackInfo) => {
-          console.log(resData.linkInfo)
           setVisitCount(resData.visitInfo.length)
           let ips: string[] = []
           const mobileOSNames = []
@@ -74,14 +73,60 @@ const Dashboard = () => {
         mobileVisit={mobileVisit}
         pcVisit={pcVisit}
       />
-      <Stack m={3} direction={{ base: 'column', md: 'row' }}>
+      <Stack
+        m={3}
+        mt={6}
+        direction={{ base: 'column', md: 'row' }}
+      >
         <MyMap markersPoints={markerPoints}/>
         <Center>
-          <Cobe size={800} markers={markerPoints?.map((point)=>{
-            return {location: point, size: 0.05}
+          <Cobe size={900} markers={markerPoints?.map((point) => {
+            return { location: point, size: 0.05 }
           })}/>
         </Center>
       </Stack>
+      <SimpleGrid
+        columns={{ base: 1, md: 2, lg: 4 }}
+        gap={6}
+        m={3}
+      >
+        <Box
+          w={'100%'}
+          h={'27vh'}
+          bg={'gray.800'}
+          boxShadow={'dark-lg'}
+          rounded={'lg'}
+        >
+          <BrowserNamePie/>
+        </Box>
+        <Box
+          w={'100%'}
+          h={'27vh'}
+          bg={'gray.800'}
+          boxShadow={'dark-lg'}
+          rounded={'lg'}
+        >
+          <BrowserNamePie/>
+        </Box>
+        <Box
+          w={'100%'}
+          h={'27vh'}
+          bg={'gray.800'}
+          boxShadow={'dark-lg'}
+          rounded={'lg'}
+        >
+          <BrowserNamePie/>
+        </Box>
+        <Box
+          w={'100%'}
+          h={'27vh'}
+          bg={'gray.800'}
+          boxShadow={'dark-lg'}
+          rounded={'lg'}
+        >
+          <BrowserNamePie/>
+        </Box>
+      </SimpleGrid>
     </Box>
   )
 }
