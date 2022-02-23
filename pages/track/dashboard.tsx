@@ -78,7 +78,9 @@ const Dashboard = () => {
         mt={6}
         direction={{ base: 'column', md: 'row' }}
       >
-        <MyMap markersPoints={markerPoints}/>
+        <Box w={'100%'} rounded="lg" boxShadow="dark-lg">
+          <MyMap markersPoints={markerPoints}/>
+        </Box>
         <Center>
           <Cobe size={750} markers={markerPoints?.map((point) => {
             return { location: point, size: 0.05 }
