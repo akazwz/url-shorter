@@ -60,7 +60,6 @@ const Map = (props: IMapProps) => {
       style={{
         height: '45vh',
         width: '100%',
-        borderRadius: '0.5rem',
       }}
     >
       <LayersControl position="topright">
