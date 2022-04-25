@@ -3,8 +3,8 @@ import {
 	Popup,
 	Marker,
 	TileLayer,
-	LayersControl,
 	MapContainer,
+	LayersControl,
 	useMap,
 } from 'react-leaflet'
 import { icon, LatLngTuple } from 'leaflet'
