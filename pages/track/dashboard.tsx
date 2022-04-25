@@ -8,12 +8,12 @@ import {
 	Spinner,
 	SimpleGrid,
 } from '@chakra-ui/react'
+import { Marker } from 'cobe'
 import { VisitOverview } from '../../components/track/VisitOverview'
 import Cobe from '../../components/track/Cobe'
 import { LinkInfo, VisitInfo } from '../../src/types/track'
 import CommonPie from '../../components/track/CommonPie'
 import { generatePieDataFromStringArr, PieData } from '../../src/utils/chart'
-import { Marker } from 'cobe'
 
 const MyMap = dynamic(() => import('../../components/track/Map'), { ssr: false })
 
