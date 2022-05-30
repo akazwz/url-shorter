@@ -1,4 +1,4 @@
-# URL Shorter
+# URL Shorter Next
 
 [简体中文](README_ZH.md)
 
