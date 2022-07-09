@@ -1,7 +1,11 @@
 import { Text, TextProps } from '@chakra-ui/react'
 
-export const Copyright = (props: TextProps) => (
-  <Text fontSize="sm" {...props}>
-    &copy; {new Date().getFullYear()} URL Shorter, Inc. All rights reserved.
-  </Text>
+interface CopyrightProps extends TextProps{
+	name: string
+}
+
+export const Copyright = (props: CopyrightProps) => (
+	<Text fontSize="sm" {...props}>
+		&copy; {new Date().getFullYear()} {props.name}, Inc. All rights reserved.
+	</Text>
 )

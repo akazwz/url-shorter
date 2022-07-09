@@ -1,0 +1,13 @@
+{
+  "signup": "注册",
+  "username": "用户名",
+  "password": "密码",
+  "account": "已经有账户了?",
+  "login": "登录",
+  "success": "注册成功",
+  "error": "注册失败",
+  "form": {
+    "username": "用户名长度必须大于等于3",
+    "password": "密码长度必须大于等于6"
+  }
+}

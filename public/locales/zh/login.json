@@ -1,0 +1,18 @@
+{
+  "login": "登录",
+  "loginPasswordsLess": "无密码登录",
+  "email": "邮箱",
+  "username": "用户名",
+  "password": "密码",
+  "forgetPassword": "忘记密码?",
+  "account": "还没有账户了?",
+  "signup": "注册",
+  "success": "登录成功, 请检查邮件",
+  "error": "登录失败",
+  "form": {
+    "username": "用户名长度必须大于等于3",
+    "password": "密码长度必须大于等于6"
+  },
+  "or": "或者",
+  "signInByGithub": "通过 Github 登录"
+}

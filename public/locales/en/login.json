@@ -1,0 +1,18 @@
+{
+  "login": "Sign In",
+  "loginPasswordsLess": "Sign In PasswordsLess",
+  "email": "Email",
+  "username": "Username",
+  "password": "Password",
+  "forgetPassword": "Forget password?",
+  "account": "Don't have an account?",
+  "signup": "Sign Up",
+  "success": "Sign In Success, Please check your email.",
+  "error": "Sign In Error",
+  "form": {
+    "username": "Username length must >= 3",
+    "password": "Password length must >= 6"
+  },
+  "or": "OR",
+  "signInByGithub": "Sign In By Github"
+}
