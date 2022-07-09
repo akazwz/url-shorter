@@ -1,50 +1,104 @@
 import { NextRequest, NextResponse, userAgent } from 'next/server'
 
+import { getUrl } from './lib/redis'
+
 const middleware = async(req: NextRequest) => {
-	const ua = userAgent(req)
-	NextResponse.next()
-	/* const { page, ip, geo, ua } = req
-	 const { name, params } = page
-	 if (!params) {
-		 return
-	 }
-	 const baseUrl = process.env.HOST_BASE_URL
-	 const jsonStr = JSON.stringify(params)
-	 const { shortid } = JSON.parse(jsonStr)
-	 if (name === '/api/[shortid]') {
-		 /!* save visit info *!/
-		 await fetch(`${baseUrl}/api/visit`, {
-			 method: 'POST',
-			 body: JSON.stringify({
-				 shortId: shortid,
-				 ip: ip,
-				 geo: {
-					 country: geo?.country,
-					 city: geo?.city,
-					 latitude: geo?.latitude,
-					 longitude: geo?.longitude,
-					 region: geo?.region,
-				 },
-				 ua: {
-					 isBot: ua?.isBot,
-					 uaStr: ua?.ua,
-					 browserName: ua?.browser.name,
-					 browserVersion: ua?.browser.version,
-					 osName: ua?.os.name,
-					 osVersion: ua?.os.version,
-					 cpuArchitecture: ua?.cpu.architecture,
-					 deviceModel: ua?.device.model,
-					 deviceType: ua?.device.type,
-					 deviceVendor: ua?.device.vendor,
-					 engineName: ua?.engine.name,
-					 enginVersion: ua?.engine.version,
-				 }
-			 }),
-			 headers: {
-				 'Content-Type': 'application/json'
-			 }
-		 })
-	 }*/
+	return await redirects(req)
 }
+
+const redirects = async(req: NextRequest) => {
+	const start = Date.now()
+	const path = req.nextUrl.pathname.split('/')[1]
+	const whiteList = [
+		'favicon.ico',
+		'',
+		'api',
+		'_next',
+		'login',
+	]
+	if (whiteList.includes(path)) {
+		return
+	}
+	const url = await getUrl(path)
+
+	const host = req.nextUrl.protocol + '//' + req.nextUrl.host
+	const end = Date.now()
+	if (!url) {
+		return NextResponse.redirect(host)
+	}
+	await recordVisits(req, path)
+	const endVisits = Date.now()
+	console.log(end - start)
+	console.log(endVisits - end)
+	return NextResponse.redirect(url)
+}
+
+const recordVisits = async(req: NextRequest, shortCode: string) => {
+	const ip = req.ip
+	const geo = req.geo
+	const ua = userAgent(req)
+	console.log(shortCode)
+}
+
+/*
+const redirectShortId = async(shortId: string, req: NextRequest) => {
+	const start = Date.now()
+	const host = req.nextUrl.protocol + '//' + req.nextUrl.host
+	try {
+		// get link info
+		const shortRes = await fetch(`${host}/api/short?short_id=${shortId}`)
+
+		const { data } = await shortRes.json()
+		// no such link
+		if (!data) {
+			return NextResponse.redirect(`${host}/`)
+		}
+
+		const ip = req.ip
+		const geo = req.geo
+		const ua = userAgent(req)
+
+		const { id, url } = data
+
+		const visits = {
+			browser_name: ua.browser.name,
+			browser_version: ua.browser.version,
+			city: geo?.city,
+			country: geo?.country,
+			cpu_architecture: ua.cpu.architecture,
+			device_model: ua.device.model,
+			device_type: ua.device.type,
+			device_vendor: ua.device.vendor,
+			engine_name: ua.engine.name,
+			engine_version: ua.engine.version,
+			ip: ip,
+			is_bot: ua.isBot,
+			latitude: geo?.latitude,
+			longitude: geo?.longitude,
+			link_id: id,
+			os_name: ua.os.name,
+			os_version: ua.os.version,
+			region: geo?.region,
+			short_id: shortId,
+			ua: ua.ua
+		}
+
+		// record visits
+		await fetch(`${host}/api/track`, {
+			method: 'POST',
+			body: JSON.stringify({
+				visits,
+			})
+		})
+		const end = Date.now()
+		console.log(end - start)
+		// redirects
+		return NextResponse.redirect(url)
+	} catch (err: any) {
+		console.log(err)
+		return NextResponse.redirect(`${host}/`)
+	}
+}
+*/
 
 export default middleware

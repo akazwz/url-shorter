@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import axios from 'axios'
 import isUrl from 'is-url'
 import { GetStaticProps, NextPage } from 'next'
 import {
@@ -33,7 +32,7 @@ export const getStaticProps: GetStaticProps = async({ locale }) => {
 const Home: NextPage = () => {
 	const [url, setUrl] = useState<string>('')
 	const [shortUrl, setShortUrl] = useState('')
-	const [isBtnLoading, setIsBtnLoading] = useState(false)
+	const [loading, setLoading] = useState(false)
 
 	const { hasCopied, onCopy } = useClipboard(shortUrl)
 
@@ -43,29 +42,33 @@ const Home: NextPage = () => {
 	const toast = useToast()
 	const { t } = useTranslation('index')
 
-	const handleShort = () => {
-		setIsBtnLoading(true)
-		axios.post('/api/short', {
-			url: url,
-		}, {
-			headers: {
-				authorization: ''
-			},
-		}).then((res) => {
-			const { data } = res.data
+	const handleShort = async() => {
+		setLoading(true)
+		const res = await fetch('/api/short', {
+			method: 'POST',
+			body: JSON.stringify({
+				url,
+			})
+		})
+		setLoading(false)
+		if (res.status === 201) {
+			const { data } = await res.json()
 			const { short_url } = data
 			setShortUrl(short_url)
-		}).catch((err) => {
-			console.log(err)
-		}).finally(() => {
-			setIsBtnLoading(false)
-		})
+		} else {
+			toast({
+				title: t('shortError'),
+				status: 'error',
+				isClosable: true,
+			})
+		}
 	}
 
 	return (
 		<Layout>
 			<VStack minH="30vh" padding={3} spacing={10} mt={'100px'}>
 				<HStack
+					as={'form'}
 					spacing={0}
 					borderWidth={1}
 					rounded="lg"
@@ -87,12 +90,13 @@ const Home: NextPage = () => {
 						onInput={(e) => setUrl(e.currentTarget.value)}
 					/>
 					<IconButton
+						type="submit"
 						aria-label={'search'}
 						icon={<Lightning />}
 						variant="ghost"
 						isDisabled={!isUrl(url)}
 						onClick={handleShort}
-						isLoading={isBtnLoading}
+						isLoading={loading}
 					/>
 				</HStack>
 
