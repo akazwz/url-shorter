@@ -1,4 +1,4 @@
-# URL Shorter
+# URL Shorter ( Next version is under development in next branch)
 
 [简体中文](README_ZH.md)
 
