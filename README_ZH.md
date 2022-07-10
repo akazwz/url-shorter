@@ -1,4 +1,4 @@
-# URL Shorter
+# URL Shorter (下个版本正在开发中， 在 next分支)
 
 [English](README.md)
 
