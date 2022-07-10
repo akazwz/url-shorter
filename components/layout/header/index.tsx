@@ -28,6 +28,9 @@ const NotAuthedLinks = () => {
 	const { t } = useTranslation('common')
 	return (
 		<HStack spacing={7}>
+			<NextChakraLink href={'/track'}>
+				Track
+			</NextChakraLink>
 			<NextChakraLink href={'/login'}>
 				<Button
 					variant={'outline'}
