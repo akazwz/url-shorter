@@ -1,9 +1,9 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
 import isUrl from 'is-url'
 import absoluteUrl from 'next-absolute-url'
+import { unstable_getServerSession } from 'next-auth'
 
 import { setUrl } from '../../lib/redis'
-import { unstable_getServerSession } from 'next-auth'
 import { authOptions } from './auth/[...nextauth]'
 
 const handler: NextApiHandler = async(req: NextApiRequest, res: NextApiResponse) => {

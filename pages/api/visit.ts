@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import prisma from '../../lib/prisma'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 	switch (req.method) {
@@ -14,7 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 const handleCollectVisitInfo = async(req: NextApiRequest, res: NextApiResponse) => {
 	const { shortId, ip, geo, ua } = req.body
-	/* params must be string */
+	/*/!* params must be string *!/
 	if (typeof shortId !== 'string') {
 		res.status(400).json({ msg: 'params error' })
 		return
@@ -42,5 +41,5 @@ const handleCollectVisitInfo = async(req: NextApiRequest, res: NextApiResponse) 
 		console.log(e)
 		res.status(500).json({ msg: 'error' })
 		return
-	}
+	}*/
 }
