@@ -34,6 +34,17 @@ const handleShortUrl = async(req: NextApiRequest, res: NextApiResponse) => {
 
 	const { origin } = absoluteUrl(req)
 	const short_url = `${origin}/${short_code}`
+
+	let ip = null
+	const xForward = req.headers['x-forwarded-for']
+	if (typeof xForward === 'string') {
+		ip = xForward
+	} else {
+		if (xForward) {
+			ip = xForward[0]
+		}
+	}
+
 	return res.status(201).json({
 		success: true,
 		data: {
@@ -41,6 +52,7 @@ const handleShortUrl = async(req: NextApiRequest, res: NextApiResponse) => {
 			short_code,
 			short_url,
 			session,
+			ip,
 		}
 	})
 }
