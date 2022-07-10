@@ -1,5 +1,6 @@
 import { Box, Button, HStack, Spacer, useColorModeValue } from '@chakra-ui/react'
 import { useTranslation } from 'next-i18next'
+import { signOut, useSession } from 'next-auth/react'
 
 import { Logo } from '../../Logo'
 import { NextChakraLink } from '../../NextChakraLink'
@@ -15,6 +16,7 @@ const AuthedLinks = () => {
 			<Button
 				variant={'outline'}
 				borderColor={useColorModeValue('black', 'white')}
+				onClick={() => signOut()}
 			>
 				{t('header.signOut')}
 			</Button>
@@ -39,13 +41,13 @@ const NotAuthedLinks = () => {
 }
 
 export const Header = () => {
-	const isAuth = false
+	const { status } = useSession()
 
 	const Links = () => {
 		return (
 			<>
 				{
-					isAuth ? <AuthedLinks /> : <NotAuthedLinks />
+					status === 'authenticated' ? <AuthedLinks /> : <NotAuthedLinks />
 				}
 			</>
 		)

@@ -3,6 +3,8 @@ import isUrl from 'is-url'
 import absoluteUrl from 'next-absolute-url'
 
 import { setUrl } from '../../lib/redis'
+import { unstable_getServerSession } from 'next-auth'
+import { authOptions } from './auth/[...nextauth]'
 
 const handler: NextApiHandler = async(req: NextApiRequest, res: NextApiResponse) => {
 	switch (req.method) {
@@ -14,6 +16,8 @@ const handler: NextApiHandler = async(req: NextApiRequest, res: NextApiResponse)
 }
 
 const handleShortUrl = async(req: NextApiRequest, res: NextApiResponse) => {
+	const session = await unstable_getServerSession(req, res, authOptions)
+
 	const { url } = JSON.parse(req.body)
 	/* params must be string */
 	if (typeof url !== 'string') {
@@ -36,6 +40,7 @@ const handleShortUrl = async(req: NextApiRequest, res: NextApiResponse) => {
 			url,
 			short_code,
 			short_url,
+			session,
 		}
 	})
 }

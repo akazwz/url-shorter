@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import isUrl from 'is-url'
 import { GetStaticProps, NextPage } from 'next'
 import {
@@ -87,7 +87,8 @@ const Home: NextPage = () => {
 						border={'none'}
 						variant="filled"
 						size={{ base: 'md', md: 'lg' }}
-						onInput={(e) => setUrl(e.currentTarget.value)}
+						defaultValue={url}
+						onChange={(e) => setUrl(e.currentTarget.value)}
 					/>
 					<IconButton
 						type="submit"

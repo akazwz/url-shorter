@@ -1,77 +1,53 @@
-generator client {
-  provider = "prisma-client-js"
-}
-
 datasource db {
   provider = "postgresql"
-  url      = env("POSTGRES_DATABASE_URL")
+  url      = env("DATABASE_URL")
 }
 
-model LinkInfo {
-  id        String     @id @default(uuid())
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  url       String
-  shortId   String     @unique
-  userId    String?
-  User      User?      @relation(fields: [userId], references: [id])
-  VistInfo  VistInfo[]
+generator client {
+  provider        = "prisma-client-js"
 }
 
-model Profile {
-  id     String  @id @default(uuid())
-  bio    String?
-  avatar String?
-  user   User    @relation(fields: [userId], references: [id])
-  userId String  @unique
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?  @db.Text
+  access_token       String?  @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?  @db.Text
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-  id        String     @id @default(uuid())
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  name      String?
-  email     String
-  link      LinkInfo[]
-  Profile   Profile?
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
 }
 
-model VistInfo {
-  id        String    @id @default(uuid())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  ip        String?
-  linkId    String?
-  link      LinkInfo? @relation(fields: [linkId], references: [id])
-  geoInfoId String?
-  geo       GeoInfo?  @relation(fields: [geoInfoId], references: [id])
-  uaInfoId  String?
-  ua        UAInfo?   @relation(fields: [uaInfoId], references: [id])
-}
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
 
-model GeoInfo {
-  id         String     @id @default(uuid())
-  country    String?
-  city       String?
-  latitude   String?
-  longitude  String?
-  region     String?
-  VistInfo   VistInfo[]
-}
-
-model UAInfo {
-  id              String     @id @default(uuid())
-  isBot           Boolean?
-  uaStr           String?
-  browserName     String?
-  browserVersion  String?
-  osName          String?
-  osVersion       String?
-  cpuArchitecture String?
-  deviceModel     String?
-  deviceType      String?
-  deviceVendor    String?
-  engineName      String?
-  enginVersion    String?
-  VistInfo        VistInfo[]
+  @@unique([identifier, token])
 }
