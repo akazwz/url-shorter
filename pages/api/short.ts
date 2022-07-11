@@ -39,7 +39,7 @@ const handleShortUrl = async(req: NextApiRequest, res: NextApiResponse) => {
 		const session = await unstable_getServerSession(req, res, authOptions)
 		const email = session?.user?.email || null
 
-		const { origin } = absoluteUrl(req)
+		const { origin, protocol, host } = absoluteUrl(req)
 		const shortUrl = `${origin}/${shortCode}`
 		const ip = getIp(req)
 
@@ -59,6 +59,8 @@ const handleShortUrl = async(req: NextApiRequest, res: NextApiResponse) => {
 				short_code: shortCode,
 				short_url: shortUrl,
 				link,
+				protocol,
+				host,
 			}
 		})
 	} catch (e) {
