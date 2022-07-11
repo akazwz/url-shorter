@@ -12,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 }
 
 const handleCollectVisitInfo = async(req: NextApiRequest, res: NextApiResponse) => {
-	const { visit } = req.body
+	const { visit } = JSON.parse(req.body)
 
 	console.log(visit)
 	return res.status(201).json({
