@@ -64,9 +64,7 @@ const Login: NextPage = () => {
 	const handleLoginByGithub = async() => {
 		try {
 			setLoading(true)
-			await signIn('github', {
-				callbackUrl: 'http://localhost:3000/'
-			})
+			await signIn('github')
 		} catch (err: any) {
 			toast({
 				title: t('error'),
