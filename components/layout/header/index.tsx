@@ -25,7 +25,7 @@ const AuthedLinks = () => {
 			>
 				{t('header.signOut')}
 			</Button>
-			<UserMenu name={user?.name} email={user?.email} avatar={user?.image} />
+			{/*<UserMenu name={user?.name} email={user?.email} avatar={user?.image} />*/}
 		</HStack>
 	)
 }
