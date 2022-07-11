@@ -39,8 +39,9 @@ const handleShortUrl = async(req: NextApiRequest, res: NextApiResponse) => {
 		const session = await unstable_getServerSession(req, res, authOptions)
 		const email = session?.user?.email || null
 
-		const { origin, protocol, host } = absoluteUrl(req)
-		const shortUrl = `${origin}/${shortCode}`
+		const { protocol, host } = absoluteUrl(req)
+
+		const shortUrl = `${protocol}://${host.replace('www.', '')}/${shortCode}`
 		const ip = getIp(req)
 
 		const link = await prisma.link.create({
