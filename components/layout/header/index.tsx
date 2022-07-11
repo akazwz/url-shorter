@@ -1,6 +1,7 @@
 import { Box, Button, HStack, Spacer, useColorModeValue } from '@chakra-ui/react'
 import { useTranslation } from 'next-i18next'
 import { signOut, useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 import { Logo } from '../../Logo'
 import { NextChakraLink } from '../../NextChakraLink'
@@ -26,9 +27,10 @@ const AuthedLinks = () => {
 
 const NotAuthedLinks = () => {
 	const { t } = useTranslation('common')
+	const router = useRouter()
 	return (
 		<HStack spacing={7}>
-			<NextChakraLink href={'/track'}>
+			<NextChakraLink href={'/track'} color={router.pathname === '/track' ? 'blue.500' : ''}>
 				Track
 			</NextChakraLink>
 			<NextChakraLink href={'/login'}>
@@ -45,6 +47,8 @@ const NotAuthedLinks = () => {
 
 export const Header = () => {
 	const { status } = useSession()
+
+	const router = useRouter()
 
 	const Links = () => {
 		return (
@@ -65,7 +69,9 @@ export const Header = () => {
 			px={{ base: '4', md: '8' }}
 		>
 			<HStack>
-				<Logo size="37px" />
+				<NextChakraLink href={'/'} color={router.pathname === '/' ? 'purple.500' : ''}>
+					<Logo size="37px" />
+				</NextChakraLink>
 				<Spacer />
 				<Links />
 			</HStack>

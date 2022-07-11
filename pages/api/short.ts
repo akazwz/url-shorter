@@ -5,6 +5,7 @@ import { unstable_getServerSession } from 'next-auth'
 
 import { setUrl } from '../../lib/redis'
 import { authOptions } from './auth/[...nextauth]'
+import { getIp } from '../../src/utils'
 
 const handler: NextApiHandler = async(req: NextApiRequest, res: NextApiResponse) => {
 	switch (req.method) {
@@ -35,15 +36,7 @@ const handleShortUrl = async(req: NextApiRequest, res: NextApiResponse) => {
 	const { origin } = absoluteUrl(req)
 	const short_url = `${origin}/${short_code}`
 
-	let ip = null
-	const xForward = req.headers['x-forwarded-for']
-	if (typeof xForward === 'string') {
-		ip = xForward
-	} else {
-		if (xForward) {
-			ip = xForward[0]
-		}
-	}
+	const ip = getIp(req)
 
 	return res.status(201).json({
 		success: true,
