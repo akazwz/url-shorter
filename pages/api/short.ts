@@ -13,7 +13,7 @@ const handler: NextApiHandler = async(req: NextApiRequest, res: NextApiResponse)
 		case 'POST':
 			return await handleShortUrl(req, res)
 		default:
-			return res.status(405).json({ success: false })
+			return res.status(405).json({ msg: 'method not allowed' })
 	}
 }
 
@@ -59,9 +59,6 @@ const handleShortUrl = async(req: NextApiRequest, res: NextApiResponse) => {
 				url,
 				short_code: shortCode,
 				short_url: shortUrl,
-				link,
-				protocol,
-				host,
 			}
 		})
 	} catch (e) {

@@ -8,7 +8,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 			await handleRecordVisit(req, res)
 			return
 		default:
-			res.status(404).json({ msg: '404 not found' })
+			res.status(405).json({ msg: 'method not allowed' })
 			return
 	}
 }

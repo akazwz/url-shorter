@@ -86,7 +86,6 @@ const Home: NextPage = () => {
 					border={'none'}
 					variant="filled"
 					size={{ base: 'md', md: 'lg' }}
-					placeholder={'https://example.com'}
 					defaultValue={url}
 					onChange={(e) => setUrl(e.currentTarget.value)}
 				/>
