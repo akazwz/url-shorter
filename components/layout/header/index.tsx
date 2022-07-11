@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 
 import { Logo } from '../../Logo'
 import { NextChakraLink } from '../../NextChakraLink'
+import { UserMenu } from '../../UserMenu'
 
 const AuthedLinks = () => {
 	const { t } = useTranslation('common')
@@ -28,6 +29,10 @@ const AuthedLinks = () => {
 const NotAuthedLinks = () => {
 	const { t } = useTranslation('common')
 	const router = useRouter()
+
+	const { data } = useSession()
+	const user = data?.user
+
 	return (
 		<HStack spacing={7}>
 			<NextChakraLink href={'/track'} color={router.pathname === '/track' ? 'blue.500' : ''}>
@@ -41,6 +46,7 @@ const NotAuthedLinks = () => {
 					{t('header.login')}
 				</Button>
 			</NextChakraLink>
+			<UserMenu name={user?.name} email={user?.email} avatar={user?.image} />
 		</HStack>
 	)
 }

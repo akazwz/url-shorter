@@ -8,10 +8,8 @@ import {
 	HStack,
 	Divider,
 	Text,
-	useColorModeValue, Button,
+	useColorModeValue,
 } from '@chakra-ui/react'
-import { signOut } from 'next-auth/react'
-import { useTranslation } from 'next-i18next'
 
 interface UserMenuProps{
 	avatar: string | null
@@ -21,8 +19,6 @@ interface UserMenuProps{
 
 export const UserMenu = ({ avatar, name, email }: Partial<UserMenuProps>) => {
 	const bgColor = useColorModeValue('white', 'black')
-
-	const { t } = useTranslation('common')
 
 	return (
 		<Box>
@@ -38,16 +34,6 @@ export const UserMenu = ({ avatar, name, email }: Partial<UserMenuProps>) => {
 						<Divider />
 						<HStack>
 							<Text>{email}</Text>
-						</HStack>
-						<Divider/>
-						<HStack>
-							<Button
-								variant={'outline'}
-								borderColor={useColorModeValue('black', 'white')}
-								onClick={() => signOut()}
-							>
-								{t('header.signOut')}
-							</Button>
 						</HStack>
 					</VStack>
 				</MenuList>
