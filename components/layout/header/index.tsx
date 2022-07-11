@@ -1,4 +1,4 @@
-import { Box, Button, HStack, Spacer, useColorModeValue } from '@chakra-ui/react'
+import { Box, Button, HStack, Skeleton, Spacer, useColorModeValue } from '@chakra-ui/react'
 import { useTranslation } from 'next-i18next'
 import { signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
@@ -26,6 +26,15 @@ const AuthedLinks = () => {
 				{t('header.signOut')}
 			</Button>
 			<UserMenu name={user?.name} email={user?.email} avatar={user?.image} />
+		</HStack>
+	)
+}
+
+const Loading = () => {
+	return (
+		<HStack spacing={7}>
+			<Skeleton width={'70px'} height={'30px'} />
+			<Skeleton width={'70px'} height={'30px'} />
 		</HStack>
 	)
 }
@@ -79,7 +88,7 @@ export const Header = () => {
 					<Logo size="37px" />
 				</NextChakraLink>
 				<Spacer />
-				<Links />
+				{status === 'loading' ? <Loading /> : <Links />}
 			</HStack>
 		</Box>
 	)
