@@ -1,5 +1,7 @@
 # URL Shorter Next
 
+# https://dlj.sh
+
 [简体中文](README_ZH.md)
 
 ## Simple url shorter build with next.js and redis
