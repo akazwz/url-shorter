@@ -12,34 +12,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 }
 
 const handleCollectVisitInfo = async(req: NextApiRequest, res: NextApiResponse) => {
-	const { shortId, ip, geo, ua } = req.body
-	/*/!* params must be string *!/
-	if (typeof shortId !== 'string') {
-		res.status(400).json({ msg: 'params error' })
-		return
-	}
-	try {
-		const visitInfo = await prisma.vistInfo.create({
-			data: {
-				ip: ip,
-				link: {
-					connect: { shortId: shortId }
-				},
-				geo: {
-					create: geo
-				},
-				ua: {
-					create: ua
-				}
-			}
-		})
-		console.log(visitInfo)
-		res.status(201).json({ msg: 'success' })
-		return
-	} catch (e) {
-		console.log('error middleware')
-		console.log(e)
-		res.status(500).json({ msg: 'error' })
-		return
-	}*/
+	const { visit } = req.body
+
+	console.log(visit)
+	return res.status(201).json({
+		success: true
+	})
 }

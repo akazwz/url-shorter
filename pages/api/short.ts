@@ -3,9 +3,10 @@ import isUrl from 'is-url'
 import absoluteUrl from 'next-absolute-url'
 import { unstable_getServerSession } from 'next-auth'
 
-import { setUrl } from '../../lib/redis'
+import { deleteUrl, setUrl } from '../../lib/redis'
 import { authOptions } from './auth/[...nextauth]'
 import { getIp } from '../../src/utils'
+import prisma from '../../lib/prisma'
 
 const handler: NextApiHandler = async(req: NextApiRequest, res: NextApiResponse) => {
 	switch (req.method) {
@@ -17,8 +18,6 @@ const handler: NextApiHandler = async(req: NextApiRequest, res: NextApiResponse)
 }
 
 const handleShortUrl = async(req: NextApiRequest, res: NextApiResponse) => {
-	const session = await unstable_getServerSession(req, res, authOptions)
-
 	const { url } = JSON.parse(req.body)
 	/* params must be string */
 	if (typeof url !== 'string') {
@@ -31,23 +30,43 @@ const handleShortUrl = async(req: NextApiRequest, res: NextApiResponse) => {
 		return
 	}
 
-	const short_code = await setUrl(url)
+	const shortCode = await setUrl(url)
+	if (!shortCode) {
+		return res.status(400).json({ msg: 'short error' })
+	}
 
-	const { origin } = absoluteUrl(req)
-	const short_url = `${origin}/${short_code}`
+	try {
+		const session = await unstable_getServerSession(req, res, authOptions)
+		const email = session?.user?.email || null
 
-	const ip = getIp(req)
+		const { origin } = absoluteUrl(req)
+		const shortUrl = `${origin}/${shortCode}`
+		const ip = getIp(req)
 
-	return res.status(201).json({
-		success: true,
-		data: {
-			url,
-			short_code,
-			short_url,
-			session,
-			ip,
-		}
-	})
+		const link = await prisma.link.create({
+			data: {
+				url,
+				shortCode,
+				ip,
+				email,
+			}
+		})
+
+		return res.status(201).json({
+			success: true,
+			data: {
+				url,
+				short_code: shortCode,
+				short_url: shortUrl,
+				link,
+			}
+		})
+	} catch (e) {
+		await deleteUrl(shortCode)
+		return res.status(400).json({
+			success: false,
+		})
+	}
 }
 
 export default handler

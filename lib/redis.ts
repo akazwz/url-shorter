@@ -6,10 +6,14 @@ const redis = new Redis({
 	token: process.env.UPSTASH_REDIS_REST_TOKEN || '',
 })
 
-export const setUrl = async(url: string): Promise<string> => {
-	const shortCode = await generateShortCode()
-	await redis.set(`short/${shortCode}`, url)
-	return shortCode
+export const setUrl = async(url: string): Promise<string | null> => {
+	try {
+		const shortCode = await generateShortCode()
+		await redis.set(`short/${shortCode}`, url)
+		return shortCode
+	} catch (e) {
+		return null
+	}
 }
 
 export const getUrl = async(shortCode: string): Promise<string | null> => {
@@ -18,6 +22,15 @@ export const getUrl = async(shortCode: string): Promise<string | null> => {
 		return url
 	}
 	return null
+}
+
+export const deleteUrl = async(shortCode: string): Promise<boolean> => {
+	try {
+		await redis.del(`short/${shortCode}`)
+		return true
+	} catch (e) {
+		return false
+	}
 }
 
 // generate short code
