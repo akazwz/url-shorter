@@ -25,7 +25,7 @@ import { Logo } from '../components/Logo'
 export const getStaticProps: GetStaticProps = async({ locale }) => {
 	return {
 		props: {
-			...(await serverSideTranslations(locale || 'en', ['login'])),
+			...(await serverSideTranslations(locale || 'en', ['login', 'common'])),
 		},
 	}
 }
@@ -97,7 +97,7 @@ const Login: NextPage = () => {
 					<Heading size={'lg'} textAlign={'center'}>
 						{t('login')}
 					</Heading>
-					<FormControl id="email">
+					{/*<FormControl id="email">
 						<FormLabel>{t('email')}:</FormLabel>
 						<Input
 							type="email"
@@ -105,9 +105,9 @@ const Login: NextPage = () => {
 								setEmail(e.target.value)
 							}}
 						/>
-					</FormControl>
+					</FormControl>*/}
 
-					<Stack spacing={6}>
+					{/*<Stack spacing={6}>
 						<Button
 							colorScheme={'teal'}
 							variant={'solid'}
@@ -118,13 +118,14 @@ const Login: NextPage = () => {
 						</Button>
 					</Stack>
 					<Divider />
-					<Text align={'center'} fontSize={'lg'} fontWeight={'bold'}>
-						{t('or')}
-					</Text>
+						<Text align={'center'} fontSize={'lg'} fontWeight={'bold'}>
+							{t('or')}
+						</Text>*/}
 					<Button
 						colorScheme={'blue'}
 						onClick={handleLoginByGithub}
 						rightIcon={<Github />}
+						isLoading={loading}
 					>
 						{t('signInByGithub')}
 					</Button>
