@@ -2,7 +2,7 @@ import { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { VStack, HStack, IconButton, Input, useColorModeValue, Heading, useToast } from '@chakra-ui/react'
 import { Trace } from '@icon-park/react'
-import { useState } from 'react'
+import { MouseEventHandler, useState } from 'react'
 import { useRouter } from 'next/router'
 
 export const getStaticProps: GetStaticProps = async({ locale }) => {
@@ -22,17 +22,8 @@ const TrackIndex = () => {
 	const toast = useToast()
 	const router = useRouter()
 
-	const handleTrackShort = async() => {
-		const res = await fetch(`/api/track?short=${shortCode}`)
-		if (res.status !== 200) {
-			toast({
-				title: 'No Such Short',
-				status: 'error',
-				isClosable: true,
-			})
-			return
-		}
-		await router.push(`/track/${shortCode}`)
+	const handleTrackShort = async(event: MouseEventHandler<HTMLButtonElement>) => {
+
 	}
 
 	return (
@@ -70,7 +61,20 @@ const TrackIndex = () => {
 					icon={<Trace />}
 					variant="ghost"
 					isDisabled={shortCode.length !== 7}
-					onClick={handleTrackShort}
+					onClick={async(event) => {
+						event.preventDefault()
+						const res = await fetch(`/api/track?short=${shortCode}`, { method: 'GET' })
+						if (res.status !== 200) {
+							toast({
+								title: 'No Such Short',
+								status: 'error',
+								isClosable: true,
+								position: 'top'
+							})
+							return
+						}
+						await router.push(`/track/${shortCode}`)
+					}}
 				/>
 			</HStack>
 		</VStack>

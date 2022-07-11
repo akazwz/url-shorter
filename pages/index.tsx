@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import isUrl from 'is-url'
 import { GetStaticProps, NextPage } from 'next'
 import {
@@ -18,7 +18,6 @@ import { useTranslation } from 'next-i18next'
 import { Check, Copy, Lightning } from '@icon-park/react'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
-import { Layout } from '../components/layout'
 import { NextChakraLink } from '../components/NextChakraLink'
 
 export const getStaticProps: GetStaticProps = async({ locale }) => {
@@ -51,7 +50,7 @@ const Home: NextPage = () => {
 			})
 		})
 		setLoading(false)
-		if (res.status === 200) {
+		if (res.status === 201) {
 			const { data } = await res.json()
 			const { short_url } = data
 			setShortUrl(short_url)
@@ -59,6 +58,7 @@ const Home: NextPage = () => {
 			toast({
 				title: t('shortError'),
 				status: 'error',
+				position: 'top',
 				isClosable: true,
 			})
 		}
