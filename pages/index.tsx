@@ -65,75 +65,73 @@ const Home: NextPage = () => {
 	}
 
 	return (
-		<Layout>
-			<VStack minH="30vh" padding={3} spacing={10} mt={'100px'}>
-				<HStack
-					as={'form'}
-					spacing={0}
-					borderWidth={1}
+		<VStack minH="30vh" padding={3} spacing={10} mt={'100px'}>
+			<HStack
+				as={'form'}
+				spacing={0}
+				borderWidth={1}
+				rounded="lg"
+				backgroundColor={bgColor}
+				_focusWithin={{
+					backgroundColor: inputActiveBg,
+				}}
+				_hover={{
+					backgroundColor: inputActiveBg,
+				}}
+				width={{ base: '350px', md: '500px', lg: '700px' }}
+			>
+				<Input
+					backgroundColor={'transparent'}
 					rounded="lg"
-					backgroundColor={bgColor}
-					_focusWithin={{
-						backgroundColor: inputActiveBg,
-					}}
-					_hover={{
-						backgroundColor: inputActiveBg,
-					}}
-					width={{ base: '350px', md: '500px', lg: '700px' }}
-				>
-					<Input
-						backgroundColor={'transparent'}
-						rounded="lg"
-						border={'none'}
-						variant="filled"
-						size={{ base: 'md', md: 'lg' }}
-						placeholder={'https://example.com'}
-						defaultValue={url}
-						onChange={(e) => setUrl(e.currentTarget.value)}
-					/>
-					<IconButton
-						type="submit"
-						aria-label={'search'}
-						icon={<Lightning />}
-						variant="ghost"
-						isDisabled={!isUrl(url)}
-						onClick={handleShort}
-						isLoading={loading}
-					/>
-				</HStack>
+					border={'none'}
+					variant="filled"
+					size={{ base: 'md', md: 'lg' }}
+					placeholder={'https://example.com'}
+					defaultValue={url}
+					onChange={(e) => setUrl(e.currentTarget.value)}
+				/>
+				<IconButton
+					type="submit"
+					aria-label={'search'}
+					icon={<Lightning />}
+					variant="ghost"
+					isDisabled={!isUrl(url)}
+					onClick={handleShort}
+					isLoading={loading}
+				/>
+			</HStack>
 
-				{shortUrl.length > 0 ? (
-					<>
-						<Box
-							w={{ base: 'xs', sm: 'sm', md: 'md', lg: '3xl' }}
-							p={{ base: 3, md: 7 }}
-							rounded="lg"
-							borderStyle="dotted"
-							borderWidth="3px"
+			{shortUrl.length > 0 ? (
+				<>
+					<Box
+						w={{ base: 'xs', sm: 'sm', md: 'md', lg: '3xl' }}
+						p={{ base: 3, md: 7 }}
+						rounded="lg"
+						borderStyle="dotted"
+						borderWidth="3px"
+					>
+						<Stack
+							direction={{ base: 'column', md: 'row' }}
+							alignItems="center"
+							textAlign="center"
 						>
-							<Stack
-								direction={{ base: 'column', md: 'row' }}
-								alignItems="center"
-								textAlign="center"
+							<NextChakraLink href={shortUrl} color="blue.500">
+								{shortUrl}
+							</NextChakraLink>
+							<Spacer />
+							<Button
+								w={{ base: '3xs', md: '25%' }}
+								p={3}
+								onClick={onCopy}
+								leftIcon={hasCopied ? <Check fill="#7ed321" /> : <Copy />}
 							>
-								<NextChakraLink href={shortUrl} color="blue.500">
-									{shortUrl}
-								</NextChakraLink>
-								<Spacer />
-								<Button
-									w={{ base: '3xs', md: '25%' }}
-									p={3}
-									onClick={onCopy}
-									leftIcon={hasCopied ? <Check fill="#7ed321" /> : <Copy />}
-								>
-									{hasCopied ? t('copied') : t('copy')}
-								</Button>
-							</Stack>
-						</Box>
-					</>
-				) : null}
-			</VStack>
-		</Layout>
+								{hasCopied ? t('copied') : t('copy')}
+							</Button>
+						</Stack>
+					</Box>
+				</>
+			) : null}
+		</VStack>
 	)
 }
 

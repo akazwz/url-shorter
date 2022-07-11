@@ -5,13 +5,16 @@ import { appWithTranslation } from 'next-i18next'
 import { SessionProvider } from 'next-auth/react'
 
 import theme from '../src/theme'
+import { Layouts } from '../components/layout'
 
 function MyApp({ Component, pageProps: { session, ...pageProps }, }: AppProps) {
 	return (
 		<RecoilRoot>
 			<SessionProvider session={session} refetchInterval={0}>
 				<ChakraProvider theme={theme}>
-					<Component {...pageProps} />
+					<Layouts>
+						<Component {...pageProps} />
+					</Layouts>
 				</ChakraProvider>
 			</SessionProvider>
 		</RecoilRoot>

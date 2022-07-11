@@ -3,6 +3,7 @@ import { Box } from '@chakra-ui/react'
 
 import { Header } from './header'
 import { Footer } from './footer'
+import { useRouter } from 'next/router'
 
 interface IProps{
 	children: ReactNode
@@ -22,5 +23,21 @@ export const Layout = ({ children }: IProps) => {
 			</Box>
 			<Footer />
 		</Box>
+	)
+}
+
+export const Layouts = ({ children }: IProps) => {
+	const router = useRouter()
+	if (router.pathname.startsWith('/dashboard')) {
+		return (
+			<>
+				{children}
+			</>
+		)
+	}
+	return (
+		<Layout>
+			{children}
+		</Layout>
 	)
 }
