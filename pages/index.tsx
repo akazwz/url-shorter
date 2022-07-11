@@ -51,7 +51,7 @@ const Home: NextPage = () => {
 			})
 		})
 		setLoading(false)
-		if (res.status === 201) {
+		if (res.status === 200) {
 			const { data } = await res.json()
 			const { short_url } = data
 			setShortUrl(short_url)
