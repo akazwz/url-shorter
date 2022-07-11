@@ -62,6 +62,7 @@ const handleShortUrl = async(req: NextApiRequest, res: NextApiResponse) => {
 			}
 		})
 	} catch (e) {
+		console.log(e)
 		await deleteUrl(shortCode)
 		return res.status(400).json({
 			success: false,

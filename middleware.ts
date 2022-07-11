@@ -65,7 +65,9 @@ const recordVisits = async(req: NextRequest, shortCode: string) => {
 		cpu_architecture: ua.cpu.architecture
 	}
 
-	await fetch('/api/visit', {
+	const host = req.nextUrl.protocol + '//' + req.nextUrl.host
+
+	await fetch(`${host}/api/visit`, {
 		method: 'POST',
 		body: JSON.stringify({
 			visit,
