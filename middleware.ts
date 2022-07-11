@@ -41,8 +41,7 @@ const recordVisits = async(req: NextRequest, shortCode: string) => {
 	const ua = userAgent(req)
 
 	const visit: Visit = {
-		ip,
-		linkId: '',
+		link_id: '',
 		short_code: shortCode,
 		// geo
 		country: geo?.country,

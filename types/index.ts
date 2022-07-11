@@ -6,7 +6,7 @@ export interface Link{
 }
 
 export interface Visit{
-	linkId: string
+	link_id: string
 	short_code: string
 	ip?: string
 	country?: string

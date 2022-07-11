@@ -22,7 +22,7 @@ model Visit {
   id              String   @id @default(uuid())
   createdAt       DateTime @default(now())
   ip              String?
-  Link            Link?    @relation(fields: [linkId], references: [id])
+  link            Link?    @relation(fields: [linkId], references: [id])
   linkId          String?
   country         String? //geo
   city            String?
