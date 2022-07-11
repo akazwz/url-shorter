@@ -41,7 +41,7 @@ const handleShortUrl = async(req: NextApiRequest, res: NextApiResponse) => {
 
 		const { protocol, host } = absoluteUrl(req)
 
-		const shortUrl = `${protocol}://${host.replace('www.', '')}/${shortCode}`
+		const shortUrl = `${protocol}//${host.replace('www.', '')}/${shortCode}`
 		const ip = getIp(req)
 
 		const link = await prisma.link.create({
