@@ -2,11 +2,13 @@ import { useRouter } from 'next/router'
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import absoluteUrl from 'next-absolute-url'
-import { Box, Center, Stack, useColorMode, useColorModeValue } from '@chakra-ui/react'
+import { Box, Center, SimpleGrid, Stack, useColorMode, useColorModeValue } from '@chakra-ui/react'
 
 import { VisitOverview } from '../../components/track/VisitOverview'
 import dynamic from 'next/dynamic'
 import Cobe from '../../components/track/Cobe'
+import OSPie from '../../components/track/OSPie'
+import DeviceModelBar from '../../components/track/DeviceModelBar'
 
 const MyMap = dynamic(() => import('../../components/track/Map'), { ssr: false })
 
@@ -55,6 +57,30 @@ const Short = () => {
 					<Cobe size={750} markers={[]} dark={dark} />
 				</Center>
 			</Stack>
+			<SimpleGrid
+				columns={{ base: 1, md: 2, lg: 4 }}
+				gap={6}
+				m={3}
+			>
+				<Box
+					w={'100%'}
+					h={'27vh'}
+					boxShadow={'lg'}
+					rounded={'lg'}
+					borderWidth={1}
+				>
+					<OSPie />
+				</Box>
+				<Box
+					w={'100%'}
+					h={'27vh'}
+					boxShadow={'lg'}
+					rounded={'lg'}
+					borderWidth={1}
+				>
+					<DeviceModelBar />
+				</Box>
+			</SimpleGrid>
 		</Box>
 	)
 }
