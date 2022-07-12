@@ -1,5 +1,6 @@
 import { Box, HStack, SimpleGrid, Spacer, Stat, StatLabel, StatNumber } from '@chakra-ui/react'
 import IconPark from '@icon-park/react/lib/all'
+import { useTranslation } from 'next-i18next'
 
 interface IProps{
 	visitCount: number,
@@ -10,11 +11,14 @@ interface IProps{
 
 export const VisitOverview = (props: IProps) => {
 	const { visitCount, ipCount, mobileVisit, pcVisit } = props
+
+	const { t } = useTranslation('track')
+
 	const dataVisits = [
-		{ title: 'Visit Count', number: visitCount, iconName: 'PreviewClose' },
-		{ title: 'IP Count', number: ipCount, iconName: 'Earth' },
-		{ title: 'Mobile Visit', number: mobileVisit, iconName: 'Phone' },
-		{ title: 'PC Visit', number: pcVisit, iconName: 'Computer' },
+		{ title: t('visitCount'), number: visitCount, iconName: 'Click' },
+		{ title: t('ipCount'), number: ipCount, iconName: 'Earth' },
+		{ title: t('mobileVisit'), number: mobileVisit, iconName: 'Phone' },
+		{ title: t('pcVisit'), number: pcVisit, iconName: 'Computer' },
 	]
 	return (
 		<SimpleGrid
@@ -26,8 +30,7 @@ export const VisitOverview = (props: IProps) => {
 				return (
 					<HStack
 						key={'data-visit' + index}
-						bg={'gray.800'}
-						boxShadow={'dark-lg'}
+						boxShadow={'lg'}
 						display={'flex'}
 						justifyContent={'center'}
 						rounded={'lg'}
@@ -38,7 +41,7 @@ export const VisitOverview = (props: IProps) => {
 							<StatNumber>{item.number}</StatNumber>
 						</Stat>
 						<Spacer />
-						<Box bg={'blue.500'} p={3} rounded={'lg'}>
+						<Box borderWidth={1} p={3} rounded={'lg'}>
 							<IconPark size={24} type={item.iconName} />
 						</Box>
 					</HStack>

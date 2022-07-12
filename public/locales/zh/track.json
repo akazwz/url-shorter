@@ -1,4 +1,8 @@
 {
   "track": "追踪",
-  "tip": "只能追踪公共短链"
+  "tip": "只能追踪公共短链",
+  "visitCount": "访问数",
+  "ipCount": "IP数",
+  "mobileVisit": "移动访问",
+  "pcVisit": "电脑访问"
 }

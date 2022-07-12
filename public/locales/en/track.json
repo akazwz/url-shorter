@@ -1,4 +1,8 @@
 {
   "track": "Track",
-  "tip": "can only track public short"
+  "tip": "can only track public short",
+  "visitCount": "Visit Count",
+  "ipCount": "IP Count",
+  "mobileVisit": "Mobile Visit",
+  "pcVisit": "Mobile Visit"
 }
