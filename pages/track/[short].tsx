@@ -47,10 +47,11 @@ const Short = () => {
 					rounded="lg"
 					boxShadow="lg"
 					overflow="hidden"
+					borderWidth={1}
 				>
 					<MyMap />
 				</Box>
-				<Center boxShadow={'lg'} rounded={'lg'}>
+				<Center boxShadow={'lg'} rounded={'lg'} borderWidth={1}>
 					<Cobe size={750} markers={[]} dark={dark} />
 				</Center>
 			</Stack>

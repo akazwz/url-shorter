@@ -35,6 +35,7 @@ export const VisitOverview = (props: IProps) => {
 						justifyContent={'center'}
 						rounded={'lg'}
 						p={10}
+						borderWidth={1}
 					>
 						<Stat>
 							<StatLabel>{item.title}</StatLabel>
