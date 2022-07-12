@@ -35,6 +35,15 @@ export const Layouts = ({ children }: IProps) => {
 			</>
 		)
 	}
+
+	if (router.pathname.startsWith('/track')) {
+		return (
+			<>
+				{children}
+			</>
+		)
+	}
+	
 	return (
 		<Layout>
 			{children}

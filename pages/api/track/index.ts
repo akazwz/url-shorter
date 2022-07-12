@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import prisma from '../../lib/prisma'
-import { getUrl } from '../../lib/redis'
+import prisma from '../../../lib/prisma'
+import { getUrl } from '../../../lib/redis'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 	switch (req.method) {
