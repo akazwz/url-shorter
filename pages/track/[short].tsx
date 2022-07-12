@@ -9,6 +9,7 @@ import dynamic from 'next/dynamic'
 import Cobe from '../../components/track/Cobe'
 import OSPie from '../../components/track/OSPie'
 import DeviceModelBar from '../../components/track/DeviceModelBar'
+import DeviceVendorColumn from '../../components/track/DeviceVendorColumn'
 
 const MyMap = dynamic(() => import('../../components/track/Map'), { ssr: false })
 
@@ -70,6 +71,15 @@ const Short = () => {
 					borderWidth={1}
 				>
 					<OSPie />
+				</Box>
+				<Box
+					w={'100%'}
+					h={'27vh'}
+					boxShadow={'lg'}
+					rounded={'lg'}
+					borderWidth={1}
+				>
+					<DeviceVendorColumn />
 				</Box>
 				<Box
 					w={'100%'}
