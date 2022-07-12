@@ -1,65 +1,39 @@
-import { useEffect, useState } from 'react'
-import {
-	Popup,
-	Marker,
-	TileLayer,
-	MapContainer,
-	LayersControl,
-	useMap,
-} from 'react-leaflet'
-import { icon, LatLngTuple } from 'leaflet'
+import { LatLngTuple } from 'leaflet'
+import { MapContainer, LayersControl, TileLayer, CircleMarker } from 'react-leaflet'
+import { Skeleton } from '@chakra-ui/react'
+
 import 'leaflet/dist/leaflet.css'
-import visitIcon from '../../public/markers/visiter.png'
 
-import { Center, Switch } from '@chakra-ui/react'
-
-export interface IMapProps{
-	markersPoints:LatLngTuple[] | null
+const MapPlaceHolder = () => {
+	return (
+		<>
+			<Skeleton w={'100%'} h={'45vh'} />
+		</>
+	)
 }
 
-const FlyToIp = (props:IMapProps) => {
-	const { markersPoints } = props
-	const map = useMap()
-	useEffect(() => {
-		let interval:NodeJS.Timer
-		let i = 0
-		if (!markersPoints) return
-		if (markersPoints.length < 1) return
-		interval = setInterval(() => {
-			if (i === markersPoints.length) {
-				i = 0
-			}
-			map.flyTo(markersPoints[i])
-			i++
-		}, 7000)
-
-		return () => {
-			clearInterval(interval)
-		}
-	}, [map, markersPoints])
-	return null
+export interface VisitsPoint{
+	latLng: LatLngTuple
+	id: string
 }
 
-const Map = (props:IMapProps) => {
-	const { markersPoints } = props
+export interface MapProps{
+	points?: VisitsPoint[]
+}
 
-	const [isAnimated, setIsAnimated] = useState<boolean>(true)
-	const ICON = icon({
-		iconUrl: visitIcon.src,
-		iconSize: [32, 32],
-	})
-
+const MyMap = ({ points }: MapProps) => {
 	return (
 		<MapContainer
 			center={[39.9, 116.3]}
-			zoom={10}
-			style={{
-				height: '45vh',
-				width: '100%',
-			}}
+			zoom={3}
+			minZoom={2}
+			maxZoom={13}
+			style={{ height: '45vh' }}
+			attributionControl={false}
+			placeholder={<MapPlaceHolder />}
 		>
 			<LayersControl position="topright">
-				<LayersControl.BaseLayer checked name="OpenStreetMap.Mapnik">
+				<LayersControl.BaseLayer checked name="OpenStreetMap">
 					<TileLayer
 						url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 					/>
@@ -72,31 +46,15 @@ const Map = (props:IMapProps) => {
 					/>
 				</LayersControl.BaseLayer>
 			</LayersControl>
-			{markersPoints ? markersPoints.map((point, index) => {
-					return (
-						<Marker key={'points' + index} icon={ICON} position={point}>
-							<Popup>
-								{`Lat: ${point[0]}, Lng: ${point[1]}`}
-							</Popup>
-						</Marker>
-					)
-				}) :
-				null
-			}
 			{
-				isAnimated
-					? <FlyToIp markersPoints={markersPoints} />
-					: null
+				points?.map((point, index) => {
+					return (
+						<CircleMarker key={'points' + index} center={point.latLng} />
+					)
+				})
 			}
-			<Center className={'leaflet-bottom leaflet-left '}>
-				<Switch
-					colorScheme="blue"
-					className={'leaflet-control leaflet-bar'}
-					isChecked={isAnimated}
-					onChange={() => {setIsAnimated(!isAnimated)}}
-				/>
-			</Center>
 		</MapContainer>
 	)
 }
-export default Map
+
+export default MyMap

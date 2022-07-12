@@ -1,12 +1,13 @@
 import React, { useEffect, useRef } from 'react'
 import createGlobe, { Marker } from 'cobe'
 
-export interface CobeIProps{
-	size:number,
-	markers:Marker[]
+export interface CodeProps{
+	size: number,
+	markers: Marker[]
+	dark: number
 }
 
-const Cobe = (props:CobeIProps) => {
+const Cobe = (props: CodeProps) => {
 	const canvasRef = useRef<HTMLCanvasElement | null>(null)
 	useEffect(() => {
 		if (!canvasRef.current) return
@@ -17,7 +18,7 @@ const Cobe = (props:CobeIProps) => {
 			height: props.size,
 			phi: 0,
 			theta: 0,
-			dark: 1,
+			dark: props.dark,
 			diffuse: 1.2,
 			mapSamples: 16000,
 			mapBrightness: 6,
@@ -25,7 +26,7 @@ const Cobe = (props:CobeIProps) => {
 			markerColor: [0.1, 0.8, 1],
 			glowColor: [1, 1, 1],
 			markers: props.markers,
-			onRender: (state:any) => {
+			onRender: (state: any) => {
 				state.phi = phi
 				phi += 0.007
 			},
@@ -35,13 +36,15 @@ const Cobe = (props:CobeIProps) => {
 			globe.destroy()
 		}
 	}, [props.markers, props.size])
-	return (<canvas
-		ref={canvasRef}
-		style={{
-			width: props.size / 2,
-			height: props.size / 2,
-		}}
-	/>)
+	return (
+		<canvas
+			ref={canvasRef}
+			style={{
+				width: props.size / 2,
+				height: props.size / 2,
+			}}
+		/>
+	)
 }
 
 export default Cobe
