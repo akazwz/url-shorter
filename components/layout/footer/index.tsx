@@ -1,4 +1,4 @@
-import { Box, Stack, HStack, VStack } from '@chakra-ui/react'
+import { Box, Stack, HStack } from '@chakra-ui/react'
 
 import { Copyright } from './Copyright'
 import { Logo } from '../../Logo'
@@ -18,7 +18,7 @@ export const Footer = () => (
 				<HStack>
 					<Logo size="21px" />
 					<Copyright
-						name={'NEXT'}
+						name={'DLJ.SH'}
 						alignSelf={{ base: 'center', sm: 'start' }}
 					/>
 				</HStack>

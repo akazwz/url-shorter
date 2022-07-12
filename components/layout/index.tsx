@@ -28,7 +28,6 @@ export const Layout = ({ children }: IProps) => {
 
 export const Layouts = ({ children }: IProps) => {
 	const router = useRouter()
-	console.log(router.pathname)
 	if (router.pathname.startsWith('/dashboard')) {
 		return (
 			<>

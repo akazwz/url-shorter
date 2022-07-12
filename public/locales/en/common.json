@@ -3,6 +3,7 @@
     "login": "Sign In",
     "signup": "Sign Up",
     "dashboard": "Dashboard",
-    "signOut": "Sign Out"
+    "signOut": "Sign Out",
+    "track": "Track"
   }
 }

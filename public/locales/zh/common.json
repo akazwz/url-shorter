@@ -3,6 +3,7 @@
     "login": "登录",
     "signup": "注册",
     "dashboard": "仪表盘",
-    "signOut": "登出"
+    "signOut": "登出",
+    "track": "追踪"
   }
 }

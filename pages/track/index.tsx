@@ -1,14 +1,15 @@
 import { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { VStack, HStack, IconButton, Input, useColorModeValue, Heading, useToast } from '@chakra-ui/react'
+import { VStack, HStack, IconButton, Input, useColorModeValue, Heading, useToast, Text } from '@chakra-ui/react'
 import { Trace } from '@icon-park/react'
 import { MouseEventHandler, useState } from 'react'
 import { useRouter } from 'next/router'
+import { useTranslation } from 'next-i18next'
 
 export const getStaticProps: GetStaticProps = async({ locale }) => {
 	return {
 		props: {
-			...(await serverSideTranslations(locale || 'en', ['common', 'index'])),
+			...(await serverSideTranslations(locale || 'en', ['common', 'track'])),
 		},
 	}
 }
@@ -21,16 +22,16 @@ const TrackIndex = () => {
 
 	const toast = useToast()
 	const router = useRouter()
-
-	const handleTrackShort = async(event: MouseEventHandler<HTMLButtonElement>) => {
-
-	}
+	const { t } = useTranslation('track')
 
 	return (
 		<VStack minH="30vh" padding={3} spacing={10} mt={'100px'}>
-			<Heading>
-				Track
-			</Heading>
+			<VStack>
+				<Heading>
+					{t('track')}
+				</Heading>
+				<Text fontWeight={'light'} fontSize={'sm'}>{t('tip')}</Text>
+			</VStack>
 			<HStack
 				as={'form'}
 				spacing={0}
@@ -51,7 +52,6 @@ const TrackIndex = () => {
 					border={'none'}
 					variant="filled"
 					size={{ base: 'md', md: 'lg' }}
-					placeholder={'short code or short url'}
 					value={shortCode}
 					onInput={(e) => setShortCode(e.currentTarget.value)}
 				/>

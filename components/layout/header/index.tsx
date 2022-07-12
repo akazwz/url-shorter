@@ -45,8 +45,12 @@ const NotAuthedLinks = () => {
 
 	return (
 		<HStack spacing={7}>
-			<NextChakraLink href={'/track'} color={router.pathname === '/track' ? 'blue.500' : ''}>
-				Track
+			<NextChakraLink
+				href={'/track'}
+				color={router.pathname === '/track' ? 'blue.500' : ''}
+				fontWeight={'bold'}
+			>
+				{t('header.track')}
 			</NextChakraLink>
 			<NextChakraLink href={'/login'}>
 				<Button
