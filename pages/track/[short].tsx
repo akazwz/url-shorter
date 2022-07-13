@@ -13,9 +13,8 @@ import DeviceVendorColumn from '../../components/track/DeviceVendorColumn'
 const MyMap = dynamic(() => import('../../components/track/Map'), { ssr: false })
 
 export const getServerSideProps: GetServerSideProps = async({ params, locale, req }) => {
-	const { origin } = absoluteUrl(req)
+	/*const { origin } = absoluteUrl(req)
 	const response = await fetch(`${origin}/api/track?short=${params?.short}`, { method: 'GET' })
-	console.log(response)
 	if (response.status !== 200) {
 		console.log(response)
 		return {
@@ -24,7 +23,7 @@ export const getServerSideProps: GetServerSideProps = async({ params, locale, re
 				permanent: false,
 			}
 		}
-	}
+	}*/
 
 	return {
 		props: {

@@ -17,6 +17,7 @@ const redirects = async(req: NextRequest) => {
 		'_next',
 		'login',
 		'track',
+		'500',
 	]
 	if (whiteList.includes(path)) {
 		return
