@@ -12,16 +12,8 @@ import DeviceVendorColumn from '../../components/track/DeviceVendorColumn'
 
 const MyMap = dynamic(() => import('../../components/track/Map'), { ssr: false })
 
-export const getStaticProps: GetStaticProps = async({ locale }) => {
-	return {
-		props: {
-			...(await serverSideTranslations(locale || 'en', ['common', 'track'])),
-		},
-	}
-}
-
-/*export const getServerSideProps: GetServerSideProps = async({ params, locale, req }) => {
-	/!*const { origin } = absoluteUrl(req)
+export const getServerSideProps: GetServerSideProps = async({ params, locale, req }) => {
+	/*const { origin } = absoluteUrl(req)
 	const response = await fetch(`${origin}/api/track?short=${params?.short}`, { method: 'GET' })
 	if (response.status !== 200) {
 		console.log(response)
@@ -31,14 +23,23 @@ export const getStaticProps: GetStaticProps = async({ locale }) => {
 				permanent: false,
 			}
 		}
-	}*!/
+	}*/
 
-	return {
-		props: {
-			...(await serverSideTranslations(locale || 'en', ['common', 'track'])),
-		},
+	try {
+		return {
+			props: {
+				...(await serverSideTranslations(locale || 'en', ['common', 'track'])),
+			},
+		}
+	} catch (e) {
+		console.log(e)
+		return {
+			props: {
+				...(await serverSideTranslations(locale || 'en', ['common', 'track'])),
+			},
+		}
 	}
-}*/
+}
 
 const Short = () => {
 	const dark = useColorModeValue(-1, 1)
