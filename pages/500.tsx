@@ -1,4 +1,4 @@
-import { Center, Image } from '@chakra-ui/react'
+import { Center, Heading } from '@chakra-ui/react'
 import { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
@@ -13,7 +13,7 @@ export const getStaticProps: GetStaticProps = async({ locale }) => {
 const ErrorPage = () => {
 	return (
 		<Center>
-			<Image src={'/undraw_server_down.svg'} alt={'server down'} draggable={false} />
+			<Heading>500</Heading>
 		</Center>
 	)
 }
