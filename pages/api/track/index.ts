@@ -35,7 +35,10 @@ const handleGetTrack = async(req: NextApiRequest, res: NextApiResponse) => {
 	}
 
 	if (link.email) {
-		return res.status(400).json({ msg: 'not public link' })
+		return res.status(400).json({
+			msg: 'not public link',
+			email: link.email
+		})
 	}
 
 	return res.status(200).json({ success: true })

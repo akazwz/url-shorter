@@ -1,4 +1,3 @@
-import { LatLngTuple } from 'leaflet'
 import { MapContainer, LayersControl, TileLayer, CircleMarker } from 'react-leaflet'
 import { Skeleton } from '@chakra-ui/react'
 
@@ -12,13 +11,8 @@ const MapPlaceHolder = () => {
 	)
 }
 
-export interface VisitsPoint{
-	latLng: LatLngTuple
-	id: string
-}
-
 export interface MapProps{
-	points?: VisitsPoint[]
+	points?: [number, number][]
 }
 
 const MyMap = ({ points }: MapProps) => {
@@ -49,7 +43,7 @@ const MyMap = ({ points }: MapProps) => {
 			{
 				points?.map((point, index) => {
 					return (
-						<CircleMarker key={'points' + index} center={point.latLng} />
+						<CircleMarker key={'points' + index} center={point} />
 					)
 				})
 			}

@@ -35,6 +35,22 @@ const handleGetShortTrack = async(req: NextApiRequest, res: NextApiResponse) => 
 		return res.status(400).json({ msg: 'params error' })
 	}
 
+	const link = await prisma.link.findUnique({
+		where: {
+			shortCode: short,
+		}
+	})
+
+	if (!link) {
+		return res.status(400).json({ msg: 'params error' })
+	}
+
+	if (link.email) {
+		return res.status(400).json({
+			msg: 'not public link',
+		})
+	}
+
 	const visits = await prisma.visit.findMany({
 		where: {
 			link: {
@@ -98,8 +114,8 @@ const handleGetShortTrack = async(req: NextApiRequest, res: NextApiResponse) => 
 
 	const visitCount = visits.length
 	const ipCount = ips.length
-	const mobileOSCount = mobileOSArr.length
-	const pcOSCount = pcOSArr.length
+	const mobileCount = mobileOSArr.length
+	const pcCount = pcOSArr.length
 
 	// unique obj total
 	const positions = unique(positionsArr)
@@ -112,13 +128,12 @@ const handleGetShortTrack = async(req: NextApiRequest, res: NextApiResponse) => 
 		short,
 		ipCount,
 		visitCount,
-		mobileOSCount,
-		pcOSCount,
+		mobileCount,
+		pcCount,
 		os,
 		browser,
 		deviceModel,
 		deviceVendor,
-		positions,
 		markers,
 	})
 }

@@ -11,8 +11,9 @@ import DeviceModelBar from '../../components/track/DeviceModelBar'
 import DeviceVendorColumn from '../../components/track/DeviceVendorColumn'
 import BrowserBar from '../../components/track/BrowserBar'
 import TrackSetting from '../../components/track/TrackSetting'
-import { useState } from 'react'
-import { VisitsPoint } from '../../components/track/Map'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
+import { Marker } from 'cobe'
 
 const MyMap = dynamic(() => import('../../components/track/Map'), { ssr: false })
 
@@ -47,22 +48,35 @@ const Loading = () => {
 interface ShortDashboardProps{
 	visitCount: number
 	ipCount: number
-	mobileVisit: number
-	pcVisit: number
-	positions: VisitsPoint[]
-	browsers: any[]
-	deviceVendors: any[]
-	deviceModels: any[]
-
+	mobileCount: number
+	pcCount: number
+	markers: [number, number][]
+	browser: any[]
+	os: any[],
+	deviceVendor: any[]
+	deviceModel: any[]
 }
 
-
-
-const ShortDashboard = () => {
+const ShortDashboard = ({
+	browser,
+	deviceModel,
+	deviceVendor,
+	os,
+	ipCount,
+	visitCount,
+	markers,
+	mobileCount,
+	pcCount
+}: ShortDashboardProps) => {
 	const dark = useColorModeValue(-1, 1)
+
+	const m: Marker[] = []
+	markers.map((mark) => {
+		m.push({ location: mark, size: 0.03 })
+	})
 	return (
 		<Box w={'100vw'} minH={'100vh'} p={3}>
-			<VisitOverview visitCount={88} ipCount={88} mobileVisit={88} pcVisit={88} />
+			<VisitOverview visitCount={visitCount} ipCount={ipCount} mobileVisit={mobileCount} pcVisit={pcCount} />
 			<Stack
 				mt={6}
 				mb={6}
@@ -78,10 +92,10 @@ const ShortDashboard = () => {
 					overflow="hidden"
 					borderWidth={1}
 				>
-					<MyMap />
+					<MyMap points={markers}/>
 				</Box>
 				<Center boxShadow={'lg'} rounded={'lg'} borderWidth={1}>
-					<Cobe size={750} markers={[]} dark={dark} />
+					<Cobe size={750} markers={m} dark={dark} />
 				</Center>
 			</Stack>
 			<SimpleGrid
@@ -96,7 +110,7 @@ const ShortDashboard = () => {
 					rounded={'lg'}
 					borderWidth={1}
 				>
-					<OSPie />
+					<OSPie data={os} />
 				</Box>
 				<Box
 					w={'100%'}
@@ -105,7 +119,7 @@ const ShortDashboard = () => {
 					rounded={'lg'}
 					borderWidth={1}
 				>
-					<BrowserBar />
+					<BrowserBar data={browser} />
 				</Box>
 				<Box
 					w={'100%'}
@@ -114,7 +128,7 @@ const ShortDashboard = () => {
 					rounded={'lg'}
 					borderWidth={1}
 				>
-					<DeviceVendorColumn />
+					<DeviceVendorColumn data={deviceVendor} />
 				</Box>
 				<Box
 					w={'100%'}
@@ -123,7 +137,7 @@ const ShortDashboard = () => {
 					rounded={'lg'}
 					borderWidth={1}
 				>
-					<DeviceModelBar />
+					<DeviceModelBar data={deviceModel} />
 				</Box>
 			</SimpleGrid>
 			<TrackSetting />
@@ -132,11 +146,37 @@ const ShortDashboard = () => {
 }
 
 const Short = () => {
-	const [loading, setLoading] = useState(false)
+	const [loading, setLoading] = useState(true)
+	const [data, setData] = useState<ShortDashboardProps>({
+		browser: [],
+		deviceModel: [],
+		deviceVendor: [],
+		os: [],
+		ipCount: 0,
+		visitCount: 0,
+		markers: [],
+		mobileCount: 0,
+		pcCount: 0,
+	})
+
+	const router = useRouter()
+	useEffect(() => {
+		if (!router.isReady) return
+		const { short } = router.query
+		const getTrackData = async(short: any) => {
+			setLoading(true)
+			const res = await fetch(`/api/track/${short}`, { method: 'GET' })
+			const data = await res.json()
+			/*const { browser, deviceModel, os, deviceVendor, ipCount, visitCount, markers, mobileCount, pcCount } = data*/
+			setData(data)
+			setLoading(false)
+		}
+		getTrackData(short).then()
+	}, [router.isReady, router.query])
 
 	return (
 		<>
-			{loading ? <Loading /> : <ShortDashboard />}
+			{loading ? <Loading /> : <ShortDashboard {...data} />}
 		</>
 	)
 }
