@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import absoluteUrl from 'next-absolute-url'
-import { Box, Center, SimpleGrid, Stack, Text, useColorModeValue } from '@chakra-ui/react'
+import { Box, Center, SimpleGrid, Spinner, Stack, Text, useColorModeValue } from '@chakra-ui/react'
 
 import { VisitOverview } from '../../components/track/VisitOverview'
 import dynamic from 'next/dynamic'
@@ -10,8 +10,8 @@ import OSPie from '../../components/track/OSPie'
 import DeviceModelBar from '../../components/track/DeviceModelBar'
 import DeviceVendorColumn from '../../components/track/DeviceVendorColumn'
 import BrowserBar from '../../components/track/BrowserBar'
-import MobilePercent from '../../components/track/MobilePercent'
 import TrackSetting from '../../components/track/TrackSetting'
+import { useState } from 'react'
 
 const MyMap = dynamic(() => import('../../components/track/Map'), { ssr: false })
 
@@ -35,9 +35,23 @@ export const getServerSideProps: GetServerSideProps = async({ params, locale, re
 	}
 }
 
-const Short = () => {
-	const dark = useColorModeValue(-1, 1)
+const Loading = () => {
+	return (
+		<Center minH={'100vh'}>
+			<Spinner size={'lg'} />
+		</Center>
+	)
+}
 
+interface ShortDashboardProps{
+	visitCount: number
+	ipCount: number
+
+
+}
+
+const ShortDashboard = () => {
+	const dark = useColorModeValue(-1, 1)
 	return (
 		<Box w={'100vw'} minH={'100vh'} p={3}>
 			<VisitOverview visitCount={88} ipCount={88} mobileVisit={88} pcVisit={88} />
@@ -106,6 +120,16 @@ const Short = () => {
 			</SimpleGrid>
 			<TrackSetting />
 		</Box>
+	)
+}
+
+const Short = () => {
+	const [loading, setLoading] = useState(true)
+
+	return (
+		<>
+			{loading ? <Loading /> : <ShortDashboard />}
+		</>
 	)
 }
 
