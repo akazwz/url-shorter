@@ -16,6 +16,8 @@ const OSPie = () => {
 		radius: 0.9
 	}
 
+
+
 	return (
 		<Pie {...config} />
 	)

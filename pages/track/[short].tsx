@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import absoluteUrl from 'next-absolute-url'
-import { Box, Center, SimpleGrid, Stack, useColorModeValue } from '@chakra-ui/react'
+import { Box, Center, SimpleGrid, Stack, Text, useColorModeValue } from '@chakra-ui/react'
 
 import { VisitOverview } from '../../components/track/VisitOverview'
 import dynamic from 'next/dynamic'
@@ -9,6 +9,9 @@ import Cobe from '../../components/track/Cobe'
 import OSPie from '../../components/track/OSPie'
 import DeviceModelBar from '../../components/track/DeviceModelBar'
 import DeviceVendorColumn from '../../components/track/DeviceVendorColumn'
+import BrowserBar from '../../components/track/BrowserBar'
+import MobilePercent from '../../components/track/MobilePercent'
+import TrackSetting from '../../components/track/TrackSetting'
 
 const MyMap = dynamic(() => import('../../components/track/Map'), { ssr: false })
 
@@ -43,6 +46,7 @@ const Short = () => {
 				mb={6}
 				ml={3}
 				mr={3}
+				spacing={6}
 				direction={{ base: 'column', md: 'row' }}
 			>
 				<Box
@@ -79,6 +83,15 @@ const Short = () => {
 					rounded={'lg'}
 					borderWidth={1}
 				>
+					<BrowserBar />
+				</Box>
+				<Box
+					w={'100%'}
+					h={'27vh'}
+					boxShadow={'lg'}
+					rounded={'lg'}
+					borderWidth={1}
+				>
 					<DeviceVendorColumn />
 				</Box>
 				<Box
@@ -91,6 +104,7 @@ const Short = () => {
 					<DeviceModelBar />
 				</Box>
 			</SimpleGrid>
+			<TrackSetting />
 		</Box>
 	)
 }
