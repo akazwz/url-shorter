@@ -24,19 +24,18 @@ export const getServerSideProps: GetServerSideProps = async({ params, locale, re
 			}
 		}
 	}*/
-
 	try {
+		const props = {
+			...(await serverSideTranslations(locale || 'en', ['common', 'track'])),
+		}
+		console.log(props)
 		return {
-			props: {
-				...(await serverSideTranslations(locale || 'en', ['common', 'track'])),
-			},
+			props,
 		}
 	} catch (e) {
 		console.log(e)
 		return {
-			props: {
-				...(await serverSideTranslations(locale || 'en', ['common', 'track'])),
-			},
+			props: {},
 		}
 	}
 }
