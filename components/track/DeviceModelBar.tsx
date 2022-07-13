@@ -21,8 +21,8 @@ const DeviceModelBar = () => {
 	]
 
 	const config: BarConfig = {
-		appendPadding: 10,
 		data,
+		appendPadding: 10,
 		xField: 'count',
 		yField: 'model',
 		yAxis: {
@@ -32,6 +32,10 @@ const DeviceModelBar = () => {
 		},
 		scrollbar: {
 			type: 'vertical',
+			style: {
+				trackColor: 'lightGray',
+				thumbColor: 'gray'
+			},
 		},
 	}
 

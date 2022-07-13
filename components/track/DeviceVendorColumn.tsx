@@ -24,6 +24,10 @@ const DeviceVendorColumn = () => {
 		},
 		scrollbar: {
 			type: 'horizontal',
+			style: {
+				trackColor: 'lightGray',
+				thumbColor: 'gray'
+			},
 		},
 	}
 

@@ -1,8 +1,7 @@
-import { useRouter } from 'next/router'
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import absoluteUrl from 'next-absolute-url'
-import { Box, Center, SimpleGrid, Stack, useColorMode, useColorModeValue } from '@chakra-ui/react'
+import { Box, Center, SimpleGrid, Stack, useColorModeValue } from '@chakra-ui/react'
 
 import { VisitOverview } from '../../components/track/VisitOverview'
 import dynamic from 'next/dynamic'
@@ -16,7 +15,9 @@ const MyMap = dynamic(() => import('../../components/track/Map'), { ssr: false }
 export const getServerSideProps: GetServerSideProps = async({ params, locale, req }) => {
 	const { origin } = absoluteUrl(req)
 	const response = await fetch(`${origin}/api/track?short=${params?.short}`, { method: 'GET' })
+	console.log(response)
 	if (response.status !== 200) {
+		console.log(response)
 		return {
 			redirect: {
 				destination: '/',
