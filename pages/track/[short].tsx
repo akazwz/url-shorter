@@ -1,4 +1,4 @@
-import { GetServerSideProps, GetStaticProps } from 'next'
+import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import absoluteUrl from 'next-absolute-url'
 import { Box, Center, SimpleGrid, Stack, useColorModeValue } from '@chakra-ui/react'
@@ -13,7 +13,7 @@ import DeviceVendorColumn from '../../components/track/DeviceVendorColumn'
 const MyMap = dynamic(() => import('../../components/track/Map'), { ssr: false })
 
 export const getServerSideProps: GetServerSideProps = async({ params, locale, req }) => {
-	/*const { origin } = absoluteUrl(req)
+	const { origin } = absoluteUrl(req)
 	const response = await fetch(`${origin}/api/track?short=${params?.short}`, { method: 'GET' })
 	if (response.status !== 200) {
 		console.log(response)
@@ -23,20 +23,12 @@ export const getServerSideProps: GetServerSideProps = async({ params, locale, re
 				permanent: false,
 			}
 		}
-	}*/
-	try {
-		const props = {
+	}
+
+	return {
+		props: {
 			...(await serverSideTranslations(locale || 'en', ['common', 'track'])),
-		}
-		console.log(props)
-		return {
-			props,
-		}
-	} catch (e) {
-		console.log(e)
-		return {
-			props: {},
-		}
+		},
 	}
 }
 
