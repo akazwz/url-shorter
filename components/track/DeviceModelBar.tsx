@@ -2,29 +2,29 @@ import { Bar, BarConfig } from '@ant-design/plots'
 
 const DeviceModelBar = () => {
 	const data = [
-		{ model: 'iPhone 13', count: 89 },
-		{ model: 'Huawei Mate 40', count: 78 },
-		{ model: 'Xiaomi 12s', count: 56 },
-		{ model: 'Oppo Reno 6', count: 45 },
-		{ model: 'Redmi k50', count: 40 },
-		{ model: 'Redmi k50 Pro', count: 39 },
-		{ model: 'Vivo x7', count: 34 },
-		{ model: 'Xiaomi 11', count: 34 },
-		{ model: 'Huawei P40', count: 34 },
-		{ model: 'iPhone 12', count: 34 },
-		{ model: 'iPhone 11', count: 34 },
-		{ model: 'iPhone x', count: 34 },
-		{ model: 'Oppo find x3', count: 34 },
-		{ model: 'Oppo find x5', count: 34 },
-		{ model: 'Oppo find x5 pro', count: 33 },
-		{ model: 'Realme GT 2', count: 20 },
+		{ key: 'iPhone 13', value: 89 },
+		{ key: 'Huawei Mate 40', value: 78 },
+		{ key: 'Xiaomi 12s', value: 56 },
+		{ key: 'Oppo Reno 6', value: 45 },
+		{ key: 'Redmi k50', value: 40 },
+		{ key: 'Redmi k50 Pro', value: 39 },
+		{ key: 'Vivo x7', value: 34 },
+		{ key: 'Xiaomi 11', value: 34 },
+		{ key: 'Huawei P40', value: 34 },
+		{ key: 'iPhone 12', value: 34 },
+		{ key: 'iPhone 11', value: 34 },
+		{ key: 'iPhone x', value: 34 },
+		{ key: 'Oppo find x3', value: 34 },
+		{ key: 'Oppo find x5', value: 34 },
+		{ key: 'Oppo find x5 pro', value: 33 },
+		{ key: 'Realme GT 2', value: 20 },
 	]
 
 	const config: BarConfig = {
 		data,
 		appendPadding: 10,
-		xField: 'count',
-		yField: 'model',
+		xField: 'value',
+		yField: 'key',
 		yAxis: {
 			label: {
 				autoRotate: false,

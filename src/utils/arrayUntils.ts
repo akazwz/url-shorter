@@ -1,3 +1,5 @@
+import { ChartFormat } from '../../pages/api/track/[short]'
+
 export const uniqueSimpleArr = (arr: any[]): any[] => {
 	return Array.from(new Set(arr))
 }
@@ -22,4 +24,12 @@ export const unique = (arr: any[]): any[] => {
 
 	const arrUniqueString = uniqueSimpleArr(arrTempString)
 	return arrUniqueString.map((item: any) => (JSON.parse(item)))
+}
+
+export const toChartFormat = (obj: any): ChartFormat[] => {
+	const arr: ChartFormat[] = []
+	Object.keys(obj).forEach((key: string) => {
+		arr.push({ key, value: obj[key] })
+	})
+	return arr
 }

@@ -2,21 +2,21 @@ import { Bar, BarConfig } from '@ant-design/plots'
 
 const BrowserBar = () => {
 	const data = [
-		{ browser: 'Chrome', count: 99 },
-		{ browser: 'Edge', count: 89 },
-		{ browser: 'Webkit', count: 77 },
-		{ browser: 'MIUI browser', count: 65 },
-		{ browser: 'Firefox', count: 54 },
-		{ browser: 'Quark', count: 43 },
-		{ browser: 'Safari', count: 34 },
-		{ browser: 'QQBrowser', count: 23 },
+		{ key: 'Chrome', value: 99 },
+		{ key: 'Edge', value: 89 },
+		{ key: 'Webkit', value: 77 },
+		{ key: 'MIUI browser', value: 65 },
+		{ key: 'Firefox', value: 54 },
+		{ key: 'Quark', value: 43 },
+		{ key: 'Safari', value: 34 },
+		{ key: 'QQBrowser', value: 23 },
 	]
 
 	const config: BarConfig = {
 		data,
 		appendPadding: 10,
-		xField: 'count',
-		yField: 'browser',
+		xField: 'value',
+		yField: 'key',
 		yAxis: {
 			label: {
 				autoRotate: false,

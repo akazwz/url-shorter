@@ -2,21 +2,21 @@ import { Column, ColumnConfig } from '@ant-design/plots'
 
 const DeviceVendorColumn = () => {
 	const data = [
-		{ vendor: 'Apple', count: 90 },
-		{ vendor: 'Xiaomi', count: 87 },
-		{ vendor: 'Samsung', count: 80 },
-		{ vendor: 'OPPO', count: 78 },
-		{ vendor: 'Vivo', count: 67 },
-		{ vendor: 'Meizu', count: 66 },
-		{ vendor: 'LG', count: 31 },
-		{ vendor: 'Realme', count: 23 },
+		{ key: 'Apple', value: 90 },
+		{ key: 'Xiaomi', value: 87 },
+		{ key: 'Samsung', value: 80 },
+		{ key: 'OPPO', value: 78 },
+		{ key: 'Vivo', value: 67 },
+		{ key: 'Meizu', value: 66 },
+		{ key: 'LG', value: 31 },
+		{ key: 'Realme', value: 23 },
 	]
 
 	const config: ColumnConfig = {
 		appendPadding: 10,
 		data,
-		xField: 'vendor',
-		yField: 'count',
+		xField: 'key',
+		yField: 'value',
 		xAxis: {
 			label: {
 				autoRotate: false,

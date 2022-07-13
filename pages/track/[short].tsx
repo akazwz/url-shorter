@@ -12,6 +12,7 @@ import DeviceVendorColumn from '../../components/track/DeviceVendorColumn'
 import BrowserBar from '../../components/track/BrowserBar'
 import TrackSetting from '../../components/track/TrackSetting'
 import { useState } from 'react'
+import { VisitsPoint } from '../../components/track/Map'
 
 const MyMap = dynamic(() => import('../../components/track/Map'), { ssr: false })
 
@@ -46,9 +47,16 @@ const Loading = () => {
 interface ShortDashboardProps{
 	visitCount: number
 	ipCount: number
-
+	mobileVisit: number
+	pcVisit: number
+	positions: VisitsPoint[]
+	browsers: any[]
+	deviceVendors: any[]
+	deviceModels: any[]
 
 }
+
+
 
 const ShortDashboard = () => {
 	const dark = useColorModeValue(-1, 1)
@@ -124,7 +132,7 @@ const ShortDashboard = () => {
 }
 
 const Short = () => {
-	const [loading, setLoading] = useState(true)
+	const [loading, setLoading] = useState(false)
 
 	return (
 		<>

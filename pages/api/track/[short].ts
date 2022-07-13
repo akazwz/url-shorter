@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 
 import { getUrl } from '../../../lib/redis'
 import prisma from '../../../lib/prisma'
-import { unique, uniqueAndCountArr, uniqueSimpleArr } from '../../../src/utils/arrayUntils'
+import { toChartFormat, unique, uniqueAndCountArr, uniqueSimpleArr } from '../../../src/utils/arrayUntils'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 	switch (req.method) {
@@ -16,6 +16,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 export interface Position{
 	latitude: string
 	longitude: string
+}
+
+export interface ChartFormat{
+	key: string
+	value: any
 }
 
 const handleGetShortTrack = async(req: NextApiRequest, res: NextApiResponse) => {
@@ -78,29 +83,42 @@ const handleGetShortTrack = async(req: NextApiRequest, res: NextApiResponse) => 
 
 	// unique simple array
 	ips = uniqueSimpleArr(ips)
-	const mobileOSCount = mobileOSArr.length
-	const pcOSCount = pcOSArr.length
+
 	// unique and count
 	oss = uniqueAndCountArr(oss)
 	browsers = uniqueAndCountArr(browsers)
 	deviceModels = uniqueAndCountArr(deviceModels)
 	deviceVendors = uniqueAndCountArr(deviceVendors)
 
+	// to chart format
+	const os = toChartFormat(oss)
+	const browser = toChartFormat(browsers)
+	const deviceModel = toChartFormat(deviceModels)
+	const deviceVendor = toChartFormat(deviceVendors)
+
 	const visitCount = visits.length
 	const ipCount = ips.length
+	const mobileOSCount = mobileOSArr.length
+	const pcOSCount = pcOSArr.length
+
 	// unique obj total
 	const positions = unique(positionsArr)
+	const markers: [number, number][] = []
+	positions.map((position: Position) => {
+		markers.push([Number(position.latitude), Number(position.longitude)])
+	})
 	return res.status(200).json({
 		success: true,
 		short,
 		ipCount,
 		visitCount,
-		oss,
 		mobileOSCount,
 		pcOSCount,
-		browsers,
-		deviceModels,
-		deviceVendors,
+		os,
+		browser,
+		deviceModel,
+		deviceVendor,
 		positions,
+		markers,
 	})
 }
