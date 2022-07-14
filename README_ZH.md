@@ -1,3 +1,5 @@
+#  ‼️下一个版本和新的域名在 https://dlj.sh
+
 # URL Shorter (下个版本正在开发中， 在 next分支)
 
 [English](README.md)

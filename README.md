@@ -1,4 +1,6 @@
-# URL Shorter ( Next version is under development in next branch)
+# ‼️next version and new domain is released in https://dlj.sh
+
+# URL Shorter (next version in next branch)
 
 [简体中文](README_ZH.md)
 
