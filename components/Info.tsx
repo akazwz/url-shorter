@@ -15,13 +15,13 @@ export const Info = () => {
 			fontWeight={'bold'}
 			w={'100%'}
 			justifyContent={'center'}
-			bg={'red.500'}
+			bg={'red.300'}
 			p={3}
 			rounded={'lg'}
 		>
 			<Icon as={InfoIcon} size={'lg'} />
 			<Text>new domain and new version in</Text>
-			<Link href={'https://dlj.sh'} isExternal color={'blue.500'}>dlj.sh</Link>
+			<Link href={'https://dlj.sh'} isExternal color={'purple.500'}>dlj.sh</Link>
 			<Link href={'https://dlj.sh'} isExternal>
 				<Button colorScheme={'blue'}>
 					Learn more

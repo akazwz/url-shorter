@@ -15,9 +15,8 @@ export const Layout = ({ children }: IProps) => {
         as="main"
         role="contentinfo"
         mx="auto"
-        minH="72vh"
+        minH="70vh"
         py="3"
-        /*px={{ base: '4', md: '8' }}*/
       >
         {children}
       </Box>
