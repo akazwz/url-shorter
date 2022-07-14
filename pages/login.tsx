@@ -86,7 +86,6 @@ const Login: NextPage = () => {
 					w={'full'}
 					maxW={'md'}
 					p={{ base: 5, md: 10 }}
-					bg={bgColor}
 					rounded={'lg'}
 				>
 					<Heading size={'lg'} textAlign={'center'}>
@@ -117,12 +116,13 @@ const Login: NextPage = () => {
 							{t('or')}
 						</Text>*/}
 					<Button
-						colorScheme={'blue'}
+						height={'57px'}
+						borderWidth={2}
 						onClick={handleLoginByGithub}
-						rightIcon={<Github />}
+						leftIcon={<Github size={'37px'} />}
 						isLoading={loading}
 					>
-						{t('signInByGithub')}
+						Github
 					</Button>
 				</Stack>
 			</VStack>
