@@ -61,7 +61,7 @@ const TrackIndex = () => {
 					aria-label={'search'}
 					icon={<Trace />}
 					variant="ghost"
-					isDisabled={shortCode.length !== 7}
+					isDisabled={shortCode.length < 5}
 					onClick={async(event) => {
 						event.preventDefault()
 						setLoading(true)
