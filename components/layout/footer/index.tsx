@@ -7,8 +7,14 @@ import { LanguagesSwitch } from '../../LanguagesSwitch'
 import { ColorModeToggle } from '../../ColorModeToggle'
 
 export const Footer = () => (
-	<Box as="footer" mx="auto" maxW="7xl" py="12" px={{ base: '4', md: '8' }}>
-		<Stack>
+	<Box
+		as="footer"
+		position="fixed"
+		bottom={0}
+		borderTopWidth={1}
+		w="100%"
+	>
+		<Stack maxW={'5xl'} mx={'auto'} p={3}>
 			<Stack
 				direction={{ base: 'column-reverse', md: 'row' }}
 				spacing="4"

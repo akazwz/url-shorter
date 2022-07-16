@@ -65,8 +65,8 @@ const NotAuthedLinks = () => {
 }
 
 export const Header = () => {
+	const bg = useColorModeValue('whiteAlpha.900', 'blackAlpha.900')
 	const { status } = useSession()
-
 	const router = useRouter()
 
 	const Links = () => {
@@ -82,18 +82,21 @@ export const Header = () => {
 	return (
 		<Box
 			as="header"
-			mx="auto"
-			maxW="7xl"
-			py="3"
-			px={{ base: '4', md: '8' }}
+			position="fixed"
+			w="100%"
+			zIndex={99}
+			borderBottomWidth="2px"
+			bg={bg}
 		>
-			<HStack>
-				<NextChakraLink href={'/'} color={router.pathname === '/' ? 'purple.500' : ''}>
-					<Logo size="37px" />
-				</NextChakraLink>
-				<Spacer />
-				{status === 'loading' ? <Loading /> : <Links />}
-			</HStack>
+			<Box maxW="5xl" mx="auto" px={3}>
+				<HStack justify="space-between" w="100%" h={16}>
+					<NextChakraLink href={'/'} color={router.pathname === '/' ? 'purple.500' : ''}>
+						<Logo size="37px" />
+					</NextChakraLink>
+					<Spacer />
+					{status === 'loading' ? <Loading /> : <Links />}
+				</HStack>
+			</Box>
 		</Box>
 	)
 }

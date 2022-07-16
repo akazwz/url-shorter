@@ -15,9 +15,11 @@ export const Layout = ({ children }: IProps) => {
 			<Header />
 			<Box
 				as="main"
-				mx="auto"
-				minH="73vh"
-				py="3"
+				maxW={'5xl'}
+				mx={'auto'}
+				px={5}
+				pt={24}
+				pb={{ base: 24, md: 16 }}
 			>
 				{children}
 			</Box>
