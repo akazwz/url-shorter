@@ -1,4 +1,4 @@
-# URL Shorter Next Version
+# URL Shorter
 
 # https://dlj.sh
 
